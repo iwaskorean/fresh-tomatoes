@@ -1,5 +1,6 @@
 {
-  "name": "nextjs-tutorial",
+  "name": "fresh-tomato",
+  "description": "Rotten tomatoes clone with Next.js",
   "private": true,
   "scripts": {
     "dev": "next dev",

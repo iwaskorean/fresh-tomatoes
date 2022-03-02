@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import LogoImage from '../public/static/images/logo.svg';
+import LogoImage from '../../../public/static/images/logo.svg';
 import Link from 'next/link';
 import styled from '@emotion/styled';
 
@@ -8,7 +8,12 @@ export default function Header() {
     <Container>
       <Link href='/' passHref={true}>
         <LogoLink>
-          <Logo layout='fixed' width='180px' src={LogoImage} alt='' />
+          <Logo
+            layout='fixed'
+            width='180px'
+            src={LogoImage}
+            alt='Fresh Tomatoes'
+          />
         </LogoLink>
       </Link>
       <Nav>
@@ -30,10 +35,10 @@ export default function Header() {
 }
 
 const Container = styled.header`
-  width: 95%;
-  height: 5rem;
+  width: 90%;
+  height: 6rem;
   background-color: var(--blue);
-  padding: 0 2rem;
+  padding: 0 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -44,15 +49,15 @@ const LogoLink = styled.a``;
 const StyledLink = styled.a`
   text-decoration: none;
   text-transform: uppercase;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   color: var(--white);
   letter-spacing: 1px;
-  padding: 0.5rem;
+  padding: 0rem 0.3rem;
   border-radius: 3px;
   font-family: var(--font-oswald);
 
   & + & {
-    margin-left: 1.5rem;
+    margin-left: 0.2rem;
   }
 
   &:hover {

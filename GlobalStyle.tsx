@@ -25,6 +25,8 @@ const globalStyle = css`
     --font-light: 300;
 
     --font-oswald: Oswald, 'sans-serif';
+
+    --layout-width: 80%;
   }
 
   * {

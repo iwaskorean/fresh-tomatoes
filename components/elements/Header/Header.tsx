@@ -27,7 +27,7 @@ export default function Header() {
           <StyledLink>TV</StyledLink>
         </Link>
         <Link href='/' passHref={true}>
-          <StyledLink>Person</StyledLink>
+          <StyledLink>People</StyledLink>
         </Link>
       </Nav>
     </Container>
@@ -35,7 +35,7 @@ export default function Header() {
 }
 
 const Container = styled.header`
-  width: 90%;
+  width: var(--layout-width);
   height: 6rem;
   background-color: var(--blue);
   padding: 0 1rem;

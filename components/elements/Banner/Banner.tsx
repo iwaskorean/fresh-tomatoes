@@ -1,6 +1,6 @@
 import { HTMLAttributes } from 'react';
 import BannerCaption from './BannerCaption';
-import BannerPic from './BannerPic';
+import Badge from './Badge';
 import styled from '@emotion/styled';
 
 export interface BannerProps extends HTMLAttributes<HTMLDivElement> {
@@ -8,6 +8,7 @@ export interface BannerProps extends HTMLAttributes<HTMLDivElement> {
   alt: string;
   title: string;
   subTitle: string[];
+  badge?: string;
 }
 
 export default function Banner({
@@ -15,18 +16,25 @@ export default function Banner({
   alt,
   title,
   subTitle,
+  badge,
   ...props
 }: BannerProps) {
+  const bakcgroundUrl = src.includes('http')
+    ? src
+    : `https://image.tmdb.org/t/p/original/${src}`;
+
   return (
-    <Container {...props}>
-      <BannerPic src={src} alt={alt} />
+    <Container {...props} src={bakcgroundUrl}>
       <BannerCaption title={title} subTitle={subTitle} />
+      {badge && <Badge>{badge}</Badge>}
     </Container>
   );
 }
 
-const Container = styled.section`
+const Container = styled.section<{ src: string }>`
   width: 100%;
   height: inherit;
   position: relative;
+  background: url(${({ src }) => src});
+  background-size: cover;
 `;

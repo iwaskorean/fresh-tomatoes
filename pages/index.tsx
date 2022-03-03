@@ -1,11 +1,7 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import Seo from '@components/Seo';
-import Banner from '@components/elements/Banner/Banner';
-import Headline from '@components/layouts/Headline';
-import Carousel from '@components/elements/Carousel/Carousel';
-import { IArticleResponse, IPeopleResponse } from '@type/response';
-import { IPerson } from '@type/person';
-import { IArticle } from '@type/article';
+import Seo from '@components/Seo/Seo';
+import Headline from '@layouts/Headline';
+import { IPeopleResponse, IArticleResponse } from '@type/index';
 
 export default function Home({
   articles,
@@ -14,36 +10,7 @@ export default function Home({
   return (
     <>
       <Seo title='Home' />
-      <Headline>
-        <Carousel>
-          {articles.map(
-            (
-              { multimedia, display_title, headline, summary_short }: IArticle,
-              i: number
-            ) => (
-              <Banner
-                key={i}
-                src={multimedia.src}
-                alt={display_title}
-                title={headline}
-                subTitle={[summary_short]}
-              />
-            )
-          )}
-        </Carousel>
-
-        {people.map(({ id, profile_path, name, known_for }: IPerson) => (
-          <Banner
-            key={id}
-            src={profile_path}
-            alt={name}
-            title={name}
-            subTitle={known_for
-              .map(({ title }) => title)
-              .filter((title) => title)}
-          />
-        ))}
-      </Headline>
+      <Headline articles={articles} people={people} />
     </>
   );
 }
@@ -61,7 +28,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   return {
     props: {
-      articles: articles.results.slice(1, 8),
+      articles: articles.results.slice(1, 5),
       people: people.results.slice(rand, rand + 2),
     },
   };

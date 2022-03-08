@@ -5,18 +5,32 @@ interface SlideButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   prev?: boolean;
   next?: boolean;
   handleSlide(): void;
+  multiCarousel?: boolean;
 }
 
 export default function SlideButton({
   prev = false,
   next = false,
   handleSlide,
+  multiCarousel = false,
   ...props
 }: SlideButtonProps) {
-  return <Button prev={prev} next={next} onClick={handleSlide} {...props} />;
+  return (
+    <Button
+      prev={prev}
+      next={next}
+      onClick={handleSlide}
+      multiCarousel={multiCarousel}
+      {...props}
+    />
+  );
 }
 
-const Button = styled.button<{ prev: boolean; next: boolean }>`
+const Button = styled.button<{
+  prev: boolean;
+  next: boolean;
+  multiCarousel?: boolean;
+}>`
   position: absolute;
   top: 50%;
   width: 35px;
@@ -25,6 +39,7 @@ const Button = styled.button<{ prev: boolean; next: boolean }>`
   border: none;
   border-radius: 50%;
   cursor: pointer;
+  background-color: var(--grayLight2);
   &:after {
     content: '';
     position: absolute;
@@ -35,18 +50,18 @@ const Button = styled.button<{ prev: boolean; next: boolean }>`
     border-bottom: 3px solid var(--grayDark1);
     transform: translate3d(-50%, -50%, 0) rotate(135deg);
   }
-  ${({ prev }) =>
+  ${({ prev, multiCarousel }) =>
     prev &&
     `
-    left:10px;
+    left:${multiCarousel ? '0px' : '10px'};
     &:after {
       left: calc(50% + 1.5px);
     }
   `}
-  ${({ next }) =>
+  ${({ next, multiCarousel }) =>
     next &&
     `
-    right:10px;
+    right: ${multiCarousel ? '0px' : '10px'};
     &:after {
       left: calc(50% - 1.5px);
       transform: translate(-50%, -50%) rotate(-45deg);

@@ -7,6 +7,9 @@ const API_KEY_NYT = process.env.API_KEY_NYT;
 
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    domains: ['https://image.tmdb.org/t/p/original'],
+  },
   async redirects() {
     return [
       {

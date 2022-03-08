@@ -6,28 +6,25 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { BannerProps } from '@components/Banner/Banner';
 import Slide from './Slide';
 import SlideButton from './SlideButton';
 import styled from '@emotion/styled';
 
-interface CarouselProps
+export interface CarouselProps
   extends PropsWithChildren<HTMLAttributes<HTMLDivElement>> {}
 
 export default function Carousel({ children, ...props }: CarouselProps) {
   const [current, setCurrent] = useState(1);
   const [prev, setPrev] = useState(0);
   const isMoving = useRef(false);
-  const childrens = React.Children.toArray(
-    children
-  ) as ReactElement<BannerProps>[];
+  const childrens = React.Children.toArray(children) as ReactElement[];
   const slides = [childrens[childrens.length - 1], ...childrens, childrens[0]];
 
   useEffect(() => {
     isMoving.current = true;
     setTimeout(() => {
       isMoving.current = false;
-    }, 1000);
+    }, 800);
   }, [current]);
 
   useEffect(() => {
@@ -45,7 +42,6 @@ export default function Carousel({ children, ...props }: CarouselProps) {
 
   const handlePrev = () => {
     if (!isMoving.current) {
-      console.log(isMoving.current);
       setPrev(current);
       if (current === 0) {
         setCurrent(slides.length - 1);
@@ -57,7 +53,6 @@ export default function Carousel({ children, ...props }: CarouselProps) {
 
   const handleNext = () => {
     if (!isMoving.current) {
-      console.log(isMoving.current);
       setPrev(current);
       if (current === slides.length - 1) {
         setCurrent(0);

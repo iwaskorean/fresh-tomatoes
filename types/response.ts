@@ -1,11 +1,11 @@
 import { IArticle } from './article';
-import { IMovie } from './movie';
+import { IMovie, IUpcomingMovie } from './movie';
 import { IPerson } from './person';
 
-export interface IMovieResponse {
+export interface IMovieResponse<T> {
   dates: { maximum: number; minimum: number };
   page: number;
-  results: IMovie[];
+  results: T[];
   total_pages: number;
   total_results: number;
 }

@@ -35,7 +35,7 @@ export default function Header() {
 }
 
 const Container = styled.header`
-  width: var(--layout-width);
+  width: 100%;
   height: 6rem;
   background-color: var(--blue);
   padding: 0 1rem;

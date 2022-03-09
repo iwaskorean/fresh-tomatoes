@@ -53,7 +53,7 @@ export default function Headline({
 }
 
 const Wrapper = styled.div`
-  width: var(--layout-width);
+  width: 100%;
   height: 22rem;
   display: grid;
   grid-template-columns: 1fr 16rem 16rem;

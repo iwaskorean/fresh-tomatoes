@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import { CarouselProps } from '@components/Carousel/Carousel';
 import SlideButton from '@components/Carousel/SlideButton';
 import styled from '@emotion/styled';
@@ -7,6 +7,14 @@ export default function MultiCarousel({ children, ...props }: CarouselProps) {
   const [current, setCurrent] = useState(0);
   const childrens = React.Children.toArray(children) as ReactElement[];
   const viewItemsLength = 5;
+  const isMoving = useRef(false);
+
+  useEffect(() => {
+    isMoving.current = true;
+    setTimeout(() => {
+      isMoving.current = false;
+    }, 800);
+  }, [current]);
 
   return (
     <Wrapper {...props}>
@@ -25,14 +33,18 @@ export default function MultiCarousel({ children, ...props }: CarouselProps) {
         <SlideButton
           multiCarousel={true}
           prev
-          handleSlide={() => setCurrent((prev) => prev - 1)}
+          handleSlide={() =>
+            !isMoving.current && setCurrent((prev) => prev - 1)
+          }
         />
       )}
       {current + 1 < Math.ceil(childrens.length / viewItemsLength) && (
         <SlideButton
           multiCarousel={true}
           next
-          handleSlide={() => setCurrent((prev) => prev + 1)}
+          handleSlide={() =>
+            !isMoving.current && setCurrent((prev) => prev + 1)
+          }
         />
       )}
     </Wrapper>

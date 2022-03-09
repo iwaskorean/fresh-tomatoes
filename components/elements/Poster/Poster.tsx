@@ -1,8 +1,5 @@
 import Image, { ImageLoaderProps } from 'next/image';
-import Rotten from '@assets/images/rotten.svg';
-import Fresh from '@assets/images/fresh.svg';
-import Certified from '@assets/images/certified.svg';
-import Unavailable from '@assets/images/unavailable.svg';
+import { getTomatoMeter } from '@utils/index';
 import styled from '@emotion/styled';
 
 interface PosterProps {
@@ -15,22 +12,6 @@ const imageLoader = ({ src, width, quality }: ImageLoaderProps) => {
   return `https://image.tmdb.org/t/p/original${src}?w=${width}&q=${
     quality || 75
   }`;
-};
-
-const getTomatoMeter = (voteAverage: number) => {
-  const votePercent = voteAverage * 10;
-  if (votePercent === 0) {
-    return <Image src={Unavailable} alt='unavailable score' />;
-  }
-  if (votePercent >= 75) {
-    return <Image src={Certified} alt='certified tomato' />;
-  }
-  if (votePercent >= 60) {
-    return <Image src={Fresh} alt='fresh tomato' />;
-  }
-  if (votePercent < 60) {
-    return <Image src={Rotten} alt='rotten tomato' />;
-  }
 };
 
 export default function Poster({ src, title, vote, ...props }: PosterProps) {
@@ -78,7 +59,7 @@ const Box = styled.div`
 
 const VoteAverage = styled.p<{ vote: number }>`
   font-weight: var(--font-bold);
-  font-size: 1.1rem;
+  font-size: 1rem;
 
   ${({ vote }) =>
     !vote &&

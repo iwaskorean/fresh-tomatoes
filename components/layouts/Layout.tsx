@@ -12,7 +12,7 @@ export default function Layout({ children }: PropsWithChildren<ReactNode>) {
 const StyledLayout = styled.div`
   width: 100%;
   min-height: 100vh;
-  background-color: var(--grayLight2);
+  background-color: inherit;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

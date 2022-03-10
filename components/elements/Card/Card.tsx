@@ -1,4 +1,4 @@
-import { HTMLAttributes, PropsWithChildren } from 'react';
+import { HTMLAttributes, LegacyRef, PropsWithChildren } from 'react';
 import Image from 'next/image';
 import { tmdbImageLoader } from '@utils/imageLoader';
 import styled from '@emotion/styled';
@@ -8,6 +8,7 @@ interface CardProps extends PropsWithChildren<HTMLAttributes<HTMLDivElement>> {
   overview?: string;
   releaseData?: string;
   src?: string;
+  innerRef?: LegacyRef<HTMLElement>;
 }
 
 export default function Card({
@@ -15,11 +16,12 @@ export default function Card({
   overview,
   releaseData,
   src,
+  innerRef,
   children,
   ...props
 }: CardProps) {
   return (
-    <Container {...props}>
+    <Container {...props} ref={innerRef}>
       {src && (
         <Image
           loader={tmdbImageLoader}

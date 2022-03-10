@@ -1,13 +1,14 @@
-import Heading from '@components/Heading/Heading';
+import { useEffect, useRef, useState } from 'react';
 import { IMovie, ITVShow } from '@type/index';
-import { useEffect, useState } from 'react';
 import { getTomatoMeter } from '@utils/index';
+import Heading from '@components/Heading/Heading';
 import styled from '@emotion/styled';
 
 export default function Lists() {
   const [listItem, setListItem] =
     useState<{ movies: IMovie[]; shows: ITVShow[] }>();
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const baseUrl = 'https://api.themoviedb.org/3';
@@ -17,12 +18,24 @@ export default function Lists() {
         await fetch(
           `${baseUrl}/movie/now_playing?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`
         )
-      ).json();
+      )
+        .json()
+        .catch((error) => {
+          setLoading(false);
+          console.log(error);
+          setError(true);
+        });
       const playingshowsRes = await (
         await fetch(
           `${baseUrl}/tv/on_the_air?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`
         )
-      ).json();
+      )
+        .json()
+        .catch((error) => {
+          setLoading(false);
+          console.log(error);
+          setError(true);
+        });
 
       setListItem({
         movies: playingMoviesRes.results.slice(0, 10),
@@ -74,6 +87,8 @@ export default function Lists() {
           </Container>
         </>
       )}
+      {loading && <Loading>Loading ...</Loading>}
+      {error && <Error>Error ...</Error>}
     </Wrapper>
   );
 }
@@ -135,4 +150,14 @@ const VoteAverage = styled.p<{ vote: number }>`
 `}
 `;
 
-const Loading = styled.h2``;
+const Loading = styled.h1`
+  width: 100%;
+  text-align: center;
+  color: var(--grayLight4);
+`;
+
+const Error = styled.h1`
+  width: 100%;
+  text-align: center;
+  color: var(--red);
+`;

@@ -1,5 +1,6 @@
 import Image, { ImageLoaderProps } from 'next/image';
 import { getTomatoMeter } from '@utils/index';
+import { tmdbImageLoader } from '@utils/imageLoader';
 import styled from '@emotion/styled';
 
 interface PosterProps {
@@ -8,18 +9,12 @@ interface PosterProps {
   vote: number;
 }
 
-const imageLoader = ({ src, width, quality }: ImageLoaderProps) => {
-  return `https://image.tmdb.org/t/p/original${src}?w=${width}&q=${
-    quality || 75
-  }`;
-};
-
 export default function Poster({ src, title, vote, ...props }: PosterProps) {
   return (
     <Container {...props}>
       <ImageBox>
         <Image
-          loader={imageLoader}
+          loader={tmdbImageLoader}
           src={src}
           alt={title}
           width={500}
@@ -39,7 +34,7 @@ export default function Poster({ src, title, vote, ...props }: PosterProps) {
   );
 }
 
-const Container = styled.section``;
+const Container = styled.article``;
 
 const ImageBox = styled.div`
   width: 100%;

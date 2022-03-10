@@ -9,7 +9,7 @@ export const getTomatoMeter = (voteAverage: number) => {
   if (votePercent === 0) {
     return <Image src={Unavailable} alt='unavailable score' />;
   }
-  if (votePercent >= 75) {
+  if (votePercent >= 80) {
     return <Image src={Certified} alt='certified tomato' />;
   }
   if (votePercent >= 60) {

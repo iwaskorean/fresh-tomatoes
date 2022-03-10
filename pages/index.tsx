@@ -9,6 +9,7 @@ import {
 } from '@type/index';
 import Upcoming from '@layouts/Upcoming';
 import Lists from '@layouts/Lists';
+import Cards from '@layouts/Cards';
 
 export default function Home({
   articles,
@@ -21,6 +22,7 @@ export default function Home({
       <Headline articles={articles} people={people} />
       <Upcoming upcomingMovies={upcomingMovies} />
       <Lists />
+      <Cards />
     </>
   );
 }

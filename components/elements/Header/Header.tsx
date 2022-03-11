@@ -4,6 +4,8 @@ import Link from 'next/link';
 import styled from '@emotion/styled';
 
 export default function Header() {
+  const categories = ['trending', 'movie', 'tv', 'people'];
+
   return (
     <Container>
       <Link href='/' passHref={true}>
@@ -17,18 +19,11 @@ export default function Header() {
         </LogoLink>
       </Link>
       <Nav>
-        <Link href='/' passHref={true}>
-          <StyledLink>Trend</StyledLink>
-        </Link>
-        <Link href='/' passHref={true}>
-          <StyledLink>Movie</StyledLink>
-        </Link>
-        <Link href='/' passHref={true}>
-          <StyledLink>TV</StyledLink>
-        </Link>
-        <Link href='/' passHref={true}>
-          <StyledLink>People</StyledLink>
-        </Link>
+        {categories.map((category, i: number) => (
+          <Link key={i} href={`/${category}`} passHref={true}>
+            <StyledLink>{category}</StyledLink>
+          </Link>
+        ))}
       </Nav>
     </Container>
   );

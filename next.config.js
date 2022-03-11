@@ -33,6 +33,10 @@ const nextConfig = {
         source: '/api/reviews',
         destination: `${BASE_URL_NYT}/movies/v2/reviews/search.json?api-key=${API_KEY_NYT}`,
       },
+      {
+        source: '/api/trending/:query',
+        destination: `${BASE_URL_TMDB}/trending/:query/day?api_key=${API_KEY_TMDB}`,
+      },
     ];
   },
 };

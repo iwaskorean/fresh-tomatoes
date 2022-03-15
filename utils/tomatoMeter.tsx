@@ -6,7 +6,7 @@ import Unavailable from '@assets/images/unavailable.svg';
 
 export const getTomatoMeter = (voteAverage: number) => {
   const votePercent = voteAverage * 10;
-  if (votePercent === 0) {
+  if (!votePercent) {
     return <Image src={Unavailable} alt='unavailable score' />;
   }
   if (votePercent >= 80) {

@@ -29,7 +29,7 @@ export default function Home({
 
 const BASE_URL = 'http://localhost:3000/api';
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps = async () => {
   const articles: IArticleResponse = await (
     await fetch(`${BASE_URL}/reviews`)
   ).json();

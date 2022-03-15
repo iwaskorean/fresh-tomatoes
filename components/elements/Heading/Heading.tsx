@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export default function Heading({ children }: { children: string }) {
+export default function Heading({ children }: { children: string | string[] }) {
   return (
     <Container>
       <Highlight />

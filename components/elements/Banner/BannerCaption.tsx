@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 interface BannerCaptionProps extends HTMLAttributes<HTMLDivElement> {
   title: string;
-  subTitle: string[];
+  subTitle?: string[];
 }
 
 export default function BannerCaption({
@@ -14,7 +14,7 @@ export default function BannerCaption({
   return (
     <Container {...props}>
       <Title>{title}</Title>
-      <SubTitle>{subTitle.join(', ')}</SubTitle>
+      <SubTitle>{subTitle?.join(', ')}</SubTitle>
     </Container>
   );
 }

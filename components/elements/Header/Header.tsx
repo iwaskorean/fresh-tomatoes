@@ -15,6 +15,7 @@ export default function Header() {
             width='180px'
             src={LogoImage}
             alt='Fresh Tomatoes'
+            priority
           />
         </LogoLink>
       </Link>

@@ -7,7 +7,7 @@ export interface BannerProps extends HTMLAttributes<HTMLDivElement> {
   src: string;
   alt: string;
   title: string;
-  subTitle: string[];
+  subTitle?: string[];
   badge?: string;
 }
 

@@ -1,12 +1,13 @@
+import { HTMLAttributes, ReactNode } from 'react';
 import styled from '@emotion/styled';
-import { ReactNode } from 'react';
 
-export default function TrendingPosters({
+export default function Posters({
   children,
+  ...props
 }: {
-  children?: ReactNode;
+  children?: HTMLAttributes<HTMLDivElement> | ReactNode;
 }) {
-  return <Container>{children}</Container>;
+  return <Container {...props}>{children}</Container>;
 }
 
 const Container = styled.div`

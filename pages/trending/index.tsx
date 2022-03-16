@@ -4,7 +4,7 @@ import Seo from '@components/Seo/Seo';
 import Nav from '@components/Nav/Nav';
 import Heading from '@components/Heading/Heading';
 import Poster from '@components/Poster/Poster';
-import TrendingPosters from '@layouts/TrendingPosters';
+import Posters from '@layouts/Posters';
 
 export type ResultType = IPerson & IMovie & ITVShow;
 
@@ -30,23 +30,25 @@ export const items = [
 export default function Trend({
   results,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  console.log(results);
-
   return (
     <>
       <Seo title='Trending' />
       <Nav items={items} />
       <Heading>Trending: All</Heading>
-      <TrendingPosters>
-        {results.map(({ id, poster_path, name, title, vote_average }) => (
-          <Poster
-            key={id}
-            src={poster_path}
-            title={name || title}
-            vote={vote_average}
-          />
-        ))}
-      </TrendingPosters>
+      <Posters>
+        {results.map(
+          ({ id, media_type, poster_path, name, title, vote_average }) => (
+            <Poster
+              key={id}
+              src={poster_path}
+              title={name || title}
+              vote={vote_average}
+              contentId={id}
+              mediaType={media_type}
+            />
+          )
+        )}
+      </Posters>
     </>
   );
 }

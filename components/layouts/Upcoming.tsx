@@ -24,6 +24,8 @@ export default function Upcoming({
               src={poster_path}
               title={title}
               vote={vote_average}
+              contentId={id}
+              mediaType='movie'
             />
           )
         )}

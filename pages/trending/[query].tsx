@@ -4,7 +4,7 @@ import Seo from '@components/Seo/Seo';
 import Nav from '@components/Nav/Nav';
 import Heading from '@components/Heading/Heading';
 import Poster from '@components/Poster/Poster';
-import TrendingPosters from '@layouts/TrendingPosters';
+import Posters from '@layouts/Posters';
 
 export default function Trending({
   query,
@@ -15,24 +15,36 @@ export default function Trending({
       <Seo
         title={
           query
-            ? `${query[0].toUpperCase() + query?.slice(1, query.length)} Trend`
+            ? `Trending: ${
+                query[0].toUpperCase() + query?.slice(1, query.length)
+              }`
             : 'Trending'
         }
       />
       <Nav items={items} />
       <Heading>Trending: {query || ''}</Heading>
-      <TrendingPosters>
+      <Posters>
         {results?.map(
-          ({ id, poster_path, name, title, vote_average, profile_path }) => (
+          ({
+            id,
+            title,
+            media_type,
+            name,
+            poster_path,
+            profile_path,
+            vote_average,
+          }) => (
             <Poster
               key={id}
-              src={poster_path || profile_path}
+              src={profile_path || poster_path || '-'}
               title={name || title}
-              vote={vote_average}
+              vote={vote_average || 0}
+              contentId={id}
+              mediaType={media_type}
             />
           )
         )}
-      </TrendingPosters>
+      </Posters>
     </>
   );
 }

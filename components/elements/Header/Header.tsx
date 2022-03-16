@@ -4,7 +4,7 @@ import Link from 'next/link';
 import styled from '@emotion/styled';
 
 export default function Header() {
-  const categories = ['trending', 'movie', 'tv', 'people'];
+  const categories = ['trending', 'movies', 'tv shows'];
 
   return (
     <Container>
@@ -53,7 +53,7 @@ const StyledLink = styled.a`
   font-family: var(--font-oswald);
 
   & + & {
-    margin-left: 0.2rem;
+    margin-left: 0.7rem;
   }
 
   &:hover {

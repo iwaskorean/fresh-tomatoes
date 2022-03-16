@@ -1,8 +1,15 @@
 import styled from '@emotion/styled';
+import { HTMLAttributes, PropsWithChildren } from 'react';
 
-export default function Heading({ children }: { children: string | string[] }) {
+export default function Heading({
+  children,
+  ...props
+}: PropsWithChildren<HTMLAttributes<HTMLDivElement>>) // {
+//   children: string | string[];
+// }
+{
   return (
-    <Container>
+    <Container {...props}>
       <Highlight />
       <Text>{children}</Text>
     </Container>

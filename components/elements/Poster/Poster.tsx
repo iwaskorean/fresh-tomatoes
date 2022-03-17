@@ -4,6 +4,7 @@ import { getTomatoMeter } from '@utils/index';
 import { tmdbImageLoader } from '@utils/imageLoader';
 import Trailer from '@components/Trailer/Trailer';
 import PlayIcon from '@assets/icons/play-icon.png';
+import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 
 interface PosterProps extends HTMLAttributes<HTMLDivElement> {
@@ -24,51 +25,67 @@ export default function Poster({
 }: PosterProps) {
   const [showTrailer, setShowTrailer] = useState(false);
 
+  const router = useRouter();
+
   const handleShowTrailer = () => {
     setShowTrailer((prev) => !prev);
   };
 
   return (
     <Container {...props}>
-      <ImageBox>
-        <Image
-          loader={tmdbImageLoader}
-          src={src}
-          alt={title || ''}
-          width={500}
-          height={700}
-          placeholder='blur'
-          blurDataURL='/static/images/rotten.svg'
-        />
-        {contentId && mediaType !== 'person' && (
-          <>
-            <Button onClick={() => setShowTrailer(true)}>
-              <Image src={PlayIcon} alt='play' />
-            </Button>
-            {showTrailer && (
-              <Trailer
-                show={showTrailer}
-                handleShow={handleShowTrailer}
-                mediaType={mediaType}
-                contentId={contentId}
-              />
-            )}
-          </>
-        )}
-      </ImageBox>
+      <Anchor>
+        <ImageBox>
+          <Image
+            loader={tmdbImageLoader}
+            src={src}
+            alt={title || ''}
+            width={500}
+            height={700}
+            placeholder='blur'
+            blurDataURL='/static/images/rotten.svg'
+          />
+          {contentId && mediaType !== 'person' && (
+            <>
+              <Button onClick={() => setShowTrailer(true)}>
+                <Image src={PlayIcon} alt='play' />
+              </Button>
+              {showTrailer && (
+                <Trailer
+                  show={showTrailer}
+                  handleShow={handleShowTrailer}
+                  mediaType={mediaType}
+                  contentId={contentId}
+                />
+              )}
+            </>
+          )}
+        </ImageBox>
 
-      <Box>
-        <TomatoMeter>{getTomatoMeter(vote)}</TomatoMeter>
-        <VoteAverage vote={vote * 10}>
-          {vote ? vote * 10 + '%' : '--'}
-        </VoteAverage>
-      </Box>
-      <Title>{title}</Title>
+        <Box
+          onClick={() =>
+            mediaType !== 'person' && router.push(`/${mediaType}/${contentId}`)
+          }
+        >
+          <Group>
+            <TomatoMeter>{getTomatoMeter(vote)}</TomatoMeter>
+            <VoteAverage vote={vote * 10}>
+              {vote ? vote * 10 + '%' : '--'}
+            </VoteAverage>
+          </Group>
+          <Title>{title}</Title>
+        </Box>
+      </Anchor>
     </Container>
   );
 }
 
-const Container = styled.article``;
+const Container = styled.article`
+  &:hover {
+    > div:first-of-type {
+      opacity: 0.8;
+    }
+  }
+`;
 
 const ImageBox = styled.div`
   position: relative;
@@ -80,6 +97,15 @@ const ImageBox = styled.div`
 `;
 
 const Box = styled.div`
+  cursor: pointer;
+  &:hover {
+    color: var(--blueHover);
+  }
+`;
+
+const Anchor = styled.a``;
+
+const Group = styled.div`
   width: 100%;
   display: flex;
   align-items: center;

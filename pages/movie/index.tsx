@@ -4,10 +4,13 @@ import { IMovie } from '@type/movie';
 import Card from '@components/Card/Card';
 import CardList from '@components/Card/CardList';
 import Seo from '@components/Seo/Seo';
+import { useRouter } from 'next/router';
 
 export default function Movies({
   results,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const router = useRouter();
+
   return (
     <>
       <Seo title='Popular Movies' />
@@ -17,6 +20,8 @@ export default function Movies({
           return (
             <Card
               key={id}
+              contentId={id}
+              mediaType={router.pathname.slice(1)}
               title={title}
               overview={overview}
               src={poster_path}
@@ -31,7 +36,7 @@ export default function Movies({
 
 export const getServerSideProps = async () => {
   const { results }: { results: IMovie[] } = await (
-    await fetch(`http://localhost:3000/api/movies/popular`)
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/movies/popular`)
   ).json();
 
   return {

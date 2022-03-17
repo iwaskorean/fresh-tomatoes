@@ -48,6 +48,8 @@ export default function Cards() {
               return (
                 <Card
                   key={id}
+                  contentId={id}
+                  mediaType={'movie'}
                   title={title}
                   overview={overview}
                   src={poster_path}
@@ -59,6 +61,8 @@ export default function Cards() {
               return (
                 <Card
                   key={id}
+                  contentId={id}
+                  mediaType={'movie'}
                   title={title}
                   overview={overview}
                   src={poster_path}

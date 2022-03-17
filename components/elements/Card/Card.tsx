@@ -1,6 +1,7 @@
 import { HTMLAttributes, LegacyRef, PropsWithChildren } from 'react';
 import Image from 'next/image';
 import { tmdbImageLoader } from '@utils/imageLoader';
+import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 
 interface CardProps extends PropsWithChildren<HTMLAttributes<HTMLDivElement>> {
@@ -9,6 +10,8 @@ interface CardProps extends PropsWithChildren<HTMLAttributes<HTMLDivElement>> {
   releaseData?: string;
   src?: string;
   innerRef?: LegacyRef<HTMLElement>;
+  contentId?: number;
+  mediaType?: string;
 }
 
 export default function Card({
@@ -17,33 +20,43 @@ export default function Card({
   releaseData,
   src,
   innerRef,
+  contentId,
   children,
+  mediaType,
   ...props
 }: CardProps) {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/${mediaType}/${contentId}`);
+  };
+
   return (
-    <Container {...props} ref={innerRef}>
-      {src && (
-        <Image
-          loader={tmdbImageLoader}
-          src={src}
-          alt={title}
-          width={500}
-          height={700}
-          placeholder='blur'
-          blurDataURL='/static/images/rotten.svg'
-        />
-      )}
-      <Title>{title}</Title>
-      {overview && (
-        <Text>{overview.split(' ').slice(0, 15).join(' ')} ...</Text>
-      )}
-      {releaseData && (
-        <Date>
-          <DateText>Release Date:</DateText>
-          <DateText>{releaseData}</DateText>
-        </Date>
-      )}
-      {children}
+    <Container ref={innerRef} onClick={() => handleClick()} {...props}>
+      <Anchor>
+        {src && (
+          <Image
+            loader={tmdbImageLoader}
+            src={src}
+            alt={title}
+            width={500}
+            height={700}
+            placeholder='blur'
+            blurDataURL='/static/images/rotten.svg'
+          />
+        )}
+        <Title>{title}</Title>
+        {overview && (
+          <Text>{overview.split(' ').slice(0, 15).join(' ')} ...</Text>
+        )}
+        {releaseData && (
+          <Date>
+            <DateText>Release Date:</DateText>
+            <DateText>{releaseData}</DateText>
+          </Date>
+        )}
+        {children}
+      </Anchor>
     </Container>
   );
 }
@@ -57,6 +70,11 @@ const Container = styled.article`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s;
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
 const Title = styled.h1`
@@ -67,6 +85,8 @@ const Title = styled.h1`
 
   text-align: center;
 `;
+
+const Anchor = styled.a``;
 
 const Text = styled.h2`
   font-size: 0.9rem;

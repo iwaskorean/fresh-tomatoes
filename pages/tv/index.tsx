@@ -4,10 +4,13 @@ import Heading from '@components/Heading/Heading';
 import Seo from '@components/Seo/Seo';
 import { ITVShow } from '@type/tv';
 import { InferGetServerSidePropsType } from 'next';
+import { useRouter } from 'next/router';
 
 export default function TvShows({
   results,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const router = useRouter();
+
   return (
     <>
       <Seo title='Popular TV Shows' />
@@ -23,6 +26,8 @@ export default function TvShows({
               overview={overview}
               src={poster_path}
               releaseData={first_air_date}
+              mediaType={router.pathname.slice(1)}
+              contentId={id}
             />
           );
         })}

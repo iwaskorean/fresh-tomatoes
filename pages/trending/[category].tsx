@@ -7,22 +7,22 @@ import Poster from '@components/Poster/Poster';
 import Posters from '@layouts/Posters';
 
 export default function Trending({
-  query,
   results,
+  category,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
       <Seo
         title={
-          query
+          category
             ? `Trending: ${
-                query[0].toUpperCase() + query?.slice(1, query.length)
+                category[0].toUpperCase() + category?.slice(1, category.length)
               }`
             : 'Trending'
         }
       />
       <Nav items={items} />
-      <Heading>Trending: {query || ''}</Heading>
+      <Heading>Trending: {category || ''}</Heading>
       <Posters>
         {results?.map(
           ({
@@ -55,9 +55,9 @@ export const getServerSideProps = async ({
   params,
 }: GetServerSidePropsContext) => {
   const trending = ['tv', 'person', 'movie'];
-  const query = params?.query as string;
+  const category = params?.category as string;
 
-  if (!trending.includes(query)) {
+  if (!trending.includes(category)) {
     return {
       redirect: {
         permanent: true,
@@ -68,10 +68,10 @@ export const getServerSideProps = async ({
   }
 
   const { results }: { results: ResultType[] } = await (
-    await fetch(`${BASE_URL}/trending/${query}`)
+    await fetch(`${BASE_URL}/trending/${category}`)
   ).json();
 
   return {
-    props: { results, query },
+    props: { results, category },
   };
 };

@@ -20,11 +20,14 @@ export default function Header() {
         </LogoLink>
       </Link>
       <Nav>
-        {categories.map((category, i: number) => (
-          <Link key={i} href={`/${category}`} passHref={true}>
-            <StyledLink>{category}</StyledLink>
-          </Link>
-        ))}
+        {categories.map((category, i: number) => {
+          const path = category === 'tv shows' ? 'tv' : category;
+          return (
+            <Link key={i} href={`/${path}`} passHref={true}>
+              <StyledLink>{category}</StyledLink>
+            </Link>
+          );
+        })}
       </Nav>
     </Container>
   );

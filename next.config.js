@@ -22,20 +22,24 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/api/movies/:query',
-        destination: `${BASE_URL_TMDB}/movie/:query?api_key=${API_KEY_TMDB}&language=en-US&page=1`,
+        source: '/api/movies/:category',
+        destination: `${BASE_URL_TMDB}/movie/:category?api_key=${API_KEY_TMDB}&language=en-US&page=1`,
       },
       {
         source: '/api/people',
         destination: `${BASE_URL_TMDB}/person/popular?api_key=${API_KEY_TMDB}&language=en-US&page=1`,
       },
       {
+        source: '/api/tv/:category',
+        destination: `${BASE_URL_TMDB}/tv/:category?api_key=${API_KEY_TMDB}&language=en-US&page=1`,
+      },
+      {
         source: '/api/reviews',
         destination: `${BASE_URL_NYT}/movies/v2/reviews/search.json?api-key=${API_KEY_NYT}`,
       },
       {
-        source: '/api/trending/:query',
-        destination: `${BASE_URL_TMDB}/trending/:query/day?api_key=${API_KEY_TMDB}`,
+        source: '/api/trending/:category',
+        destination: `${BASE_URL_TMDB}/trending/:category/day?api_key=${API_KEY_TMDB}`,
       },
     ];
   },

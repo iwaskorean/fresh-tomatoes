@@ -3,12 +3,14 @@ import Heading from '@components/Heading/Heading';
 import { IMovie } from '@type/movie';
 import Card from '@components/Card/Card';
 import CardList from '@components/Card/CardList';
+import Seo from '@components/Seo/Seo';
 
 export default function Movies({
   results,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
+      <Seo title='Popular Movies' />
       <Heading style={{ marginTop: '3rem' }}>Most Popular Movies Today</Heading>
       <CardList style={{ width: '100%' }}>
         {results.map(({ id, title, overview, poster_path, release_date }) => {

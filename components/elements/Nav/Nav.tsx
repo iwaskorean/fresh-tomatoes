@@ -37,7 +37,7 @@ const Container = styled.nav`
   margin: 2.5rem 0;
 `;
 
-const StyledLink = styled.p<{ active: boolean }>`
+const StyledLink = styled.a<{ active: boolean }>`
   text-decoration: none;
   color: ${({ active }) => (active ? 'var(--blue)' : 'var(--black)')};
   font-size: 1.5rem;

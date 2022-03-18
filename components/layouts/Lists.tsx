@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { IMovie, ITVShow } from '@type/index';
 import { getTomatoMeter } from '@utils/index';
 import Heading from '@components/Heading/Heading';
+import Link from 'next/link';
 import styled from '@emotion/styled';
 
 export default function Lists() {
@@ -21,7 +22,7 @@ export default function Lists() {
       )
         .json()
         .catch((error) => {
-          setLoading(false);
+          // setLoading(false);
           console.log(error);
           setError(true);
         });
@@ -58,12 +59,16 @@ export default function Lists() {
             <List>
               {listItem?.movies.map(({ id, title, vote_average }) => (
                 <Item key={id}>
-                  <Title>{title}</Title>
+                  <Link href={`/movie/${id}`} passHref={true}>
+                    <Title>{title}</Title>
+                  </Link>
                   <Box>
                     <TomatoMeter>{getTomatoMeter(vote_average)}</TomatoMeter>
-                    <VoteAverage vote={vote_average * 10}>
-                      {vote_average ? vote_average * 10 + '%' : '--'}
-                    </VoteAverage>
+                    <Link href={`/movie/${id}`} passHref={true}>
+                      <VoteAverage vote={vote_average * 10}>
+                        {vote_average ? vote_average * 10 + '%' : '--'}
+                      </VoteAverage>
+                    </Link>
                   </Box>
                 </Item>
               ))}
@@ -74,12 +79,16 @@ export default function Lists() {
             <List>
               {listItem?.shows.map(({ id, name, vote_average }) => (
                 <Item key={id}>
-                  <Title>{name}</Title>
+                  <Link href={`/tv/${id}`} passHref={true}>
+                    <Title>{name}</Title>
+                  </Link>
                   <Box>
                     <TomatoMeter>{getTomatoMeter(vote_average)}</TomatoMeter>
-                    <VoteAverage vote={vote_average * 10}>
-                      {vote_average ? vote_average * 10 + '%' : '--'}
-                    </VoteAverage>
+                    <Link href={`/tv/${id}`} passHref={true}>
+                      <VoteAverage vote={vote_average * 10}>
+                        {vote_average ? vote_average * 10 + '%' : '--'}
+                      </VoteAverage>
+                    </Link>
                   </Box>
                 </Item>
               ))}
@@ -87,6 +96,7 @@ export default function Lists() {
           </Container>
         </>
       )}
+
       {loading && <Loading>Loading ...</Loading>}
       {error && <Error>Error ...</Error>}
     </Wrapper>
@@ -121,6 +131,12 @@ const Item = styled.li`
   padding: 1rem 0;
   margin: 0 auto;
   border-bottom: 0.1rem solid var(--grayLight2);
+
+  &:hover {
+    a {
+      color: var(--blueHover);
+    }
+  }
 `;
 
 const Box = styled.div`
@@ -129,8 +145,9 @@ const Box = styled.div`
   gap: 0.5rem;
 `;
 
-const Title = styled.h1`
-  font-weight: var(--font-regular);
+const Title = styled.a`
+  text-decoration: none;
+  color: var(--black);
   font-size: 1rem;
 `;
 
@@ -138,16 +155,17 @@ const TomatoMeter = styled.span`
   width: 1.3rem;
 `;
 
-const VoteAverage = styled.p<{ vote: number }>`
+const VoteAverage = styled.a<{ vote: number }>`
   font-weight: var(--font-bold);
   font-size: 1rem;
-
+  text-decoration: none;
+  color: var(--black);
   ${({ vote }) =>
     !vote &&
     `
   color: var(--grayLight4);
   letter-spacing: 0.1rem;
-`}
+`};
 `;
 
 const Loading = styled.h1`

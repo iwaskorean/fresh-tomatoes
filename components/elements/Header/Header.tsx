@@ -2,6 +2,7 @@ import Image from 'next/image';
 import LogoImage from '../../../public/static/images/logo.svg';
 import Link from 'next/link';
 import styled from '@emotion/styled';
+import SearchForm from '@components/SearchForm/SearchForm';
 
 export default function Header() {
   const categories = [
@@ -23,6 +24,7 @@ export default function Header() {
           />
         </LogoLink>
       </Link>
+      <SearchForm />
       <Nav>
         {categories.map(({ title, path }, i: number) => {
           return (
@@ -38,10 +40,14 @@ export default function Header() {
 
 const Container = styled.header`
   width: 100%;
-  height: 6rem;
+  height: auto;
+  min-height: 6rem;
+
   background-color: var(--blue);
   padding: 0 1rem;
   display: flex;
+  flex-wrap: wrap;
+  z-index: 1000;
   align-items: center;
   justify-content: space-between;
 `;
@@ -74,4 +80,5 @@ const Nav = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin: 1rem;
 `;

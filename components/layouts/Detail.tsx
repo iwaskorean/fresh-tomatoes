@@ -45,12 +45,12 @@ export default function Detail({
           <Text>Release date: {releaseDate}</Text>
           {runningTime && <Text>Running time: {runningTime}mins</Text>}
           <Text>Genre: {genres?.map((genre) => genre.name).join(', ')}</Text>
-          {homepage && (
-            <Anchor target='_blank' href={homepage} rel='noopener noreferrer'>
-              <Button>See more details</Button>
-            </Anchor>
-          )}
         </Box>
+        {homepage && (
+          <Anchor target='_blank' href={homepage} rel='noopener noreferrer'>
+            See more details
+          </Anchor>
+        )}
       </Group>
     </Wrapper>
   );
@@ -89,10 +89,11 @@ const TagLine = styled.p`
 `;
 
 const SubTitle = styled.h2`
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-weight: var(--font-light);
   color: var(--grayDark2);
   margin: 1rem 0;
+  overflow-y: scroll;
 `;
 
 const Text = styled.p`
@@ -102,20 +103,15 @@ const Text = styled.p`
   letter-spacing: 0.04rem;
 `;
 
-const Button = styled.button`
-  outline: 0;
+const Anchor = styled.a`
+  text-decoration: none;
   border: none;
   font-size: 1.1rem;
   background-color: var(--blue);
   color: var(--white);
   padding: 0.7rem 1rem;
   border-radius: 0.3rem;
-  margin: 2.5rem 0;
-  cursor: pointer;
-
   &:hover {
     background-color: var(--blueHover);
   }
 `;
-
-const Anchor = styled.a``;

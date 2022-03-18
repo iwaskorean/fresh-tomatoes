@@ -33,34 +33,33 @@ export default function Poster({
 
   return (
     <Container {...props}>
+      <ImageBox>
+        <Image
+          loader={tmdbImageLoader}
+          src={src}
+          alt={title || ''}
+          width={500}
+          height={700}
+          placeholder='blur'
+          blurDataURL='/static/images/rotten.svg'
+        />
+        {contentId && mediaType !== 'person' && (
+          <>
+            <Button onClick={() => setShowTrailer(true)}>
+              <Image src={PlayIcon} alt='play' />
+            </Button>
+            {showTrailer && (
+              <Trailer
+                show={showTrailer}
+                handleShow={handleShowTrailer}
+                mediaType={mediaType}
+                contentId={contentId}
+              />
+            )}
+          </>
+        )}
+      </ImageBox>
       <Anchor>
-        <ImageBox>
-          <Image
-            loader={tmdbImageLoader}
-            src={src}
-            alt={title || ''}
-            width={500}
-            height={700}
-            placeholder='blur'
-            blurDataURL='/static/images/rotten.svg'
-          />
-          {contentId && mediaType !== 'person' && (
-            <>
-              <Button onClick={() => setShowTrailer(true)}>
-                <Image src={PlayIcon} alt='play' />
-              </Button>
-              {showTrailer && (
-                <Trailer
-                  show={showTrailer}
-                  handleShow={handleShowTrailer}
-                  mediaType={mediaType}
-                  contentId={contentId}
-                />
-              )}
-            </>
-          )}
-        </ImageBox>
-
         <Box
           onClick={() =>
             mediaType !== 'person' && router.push(`/${mediaType}/${contentId}`)

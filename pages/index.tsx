@@ -1,4 +1,4 @@
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import { InferGetServerSidePropsType } from 'next';
 import Seo from '@components/Seo/Seo';
 import Headline from '@layouts/Headline';
 import {
@@ -27,17 +27,15 @@ export default function Home({
   );
 }
 
-const BASE_URL = 'http://localhost:3000/api';
-
 export const getServerSideProps = async () => {
   const articles: IArticleResponse = await (
-    await fetch(`${BASE_URL}/reviews`)
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reviews`)
   ).json();
   const people: IPeopleResponse = await (
-    await fetch(`${BASE_URL}/people`)
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/people`)
   ).json();
   const upcomingMovies: IMovieResponse<IUpcomingMovie> = await (
-    await fetch(`${BASE_URL}/movies/upcoming`)
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/movies/upcoming`)
   ).json();
   const rand = Math.floor(Math.random() * 18);
 

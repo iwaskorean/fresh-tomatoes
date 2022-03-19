@@ -20,7 +20,13 @@ export default function Headline({
         <Carousel>
           {articles.map(
             (
-              { multimedia, display_title, headline, summary_short }: IArticle,
+              {
+                multimedia,
+                display_title,
+                headline,
+                summary_short,
+                link,
+              }: IArticle,
               i: number
             ) => (
               <Banner
@@ -30,6 +36,7 @@ export default function Headline({
                 alt={display_title}
                 title={headline}
                 subTitle={[summary_short]}
+                link={link.url}
               />
             )
           )}

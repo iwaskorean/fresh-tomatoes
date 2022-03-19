@@ -9,6 +9,7 @@ export interface BannerProps extends HTMLAttributes<HTMLDivElement> {
   title: string;
   subTitle?: string[];
   badge?: string;
+  link?: string;
 }
 
 export default function Banner({
@@ -17,6 +18,7 @@ export default function Banner({
   title,
   subTitle,
   badge,
+  link,
   ...props
 }: BannerProps) {
   const bakcgroundUrl = src.includes('http')
@@ -25,7 +27,7 @@ export default function Banner({
 
   return (
     <Container {...props} src={bakcgroundUrl}>
-      <BannerCaption title={title} subTitle={subTitle} />
+      <BannerCaption title={title} subTitle={subTitle} link={link} />
       {badge && <Badge>{badge}</Badge>}
     </Container>
   );

@@ -1,19 +1,30 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 
-type MediaTypeType = 'Movie' | 'TV';
+type MediaTypeType = 'Movie' | 'TV' | '';
 
 export default function SearchForm() {
   const [show, setShow] = useState(false);
-  const [mediaType, setMediaType] = useState<MediaTypeType>();
-  const [keyword, setKeyword] = useState('');
+  const [mediaType, setMediaType] = useState<MediaTypeType>('');
+  const [term, setTerm] = useState('');
+  const [alert, setAlert] = useState(false);
+
   const router = useRouter();
-  const ref = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [mediaType]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
         setShow(false);
       }
     };
@@ -25,12 +36,16 @@ export default function SearchForm() {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [ref, show]);
+  }, [dropdownRef, show]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (mediaType && keyword) {
-      router.push(`/search/${mediaType}/${keyword}`);
+    setAlert(true);
+    if (mediaType && term) {
+      setAlert(false);
+      router.push(
+        `/search?mediaType=${mediaType.toLowerCase()}&term=${term.toLocaleLowerCase()}`
+      );
     }
   };
 
@@ -40,13 +55,17 @@ export default function SearchForm() {
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value);
+    setTerm(e.target.value);
   };
 
   return (
     <Container>
-      <Dropdown ref={ref}>
-        <Toggle onClick={() => setShow((prev) => !prev)}>
+      <Dropdown ref={dropdownRef}>
+        <Toggle
+          onClick={() => setShow((prev) => !prev)}
+          mediaType={mediaType}
+          alert={alert}
+        >
           {mediaType ? mediaType : 'Media Type'}
         </Toggle>
         <Group show={show}>
@@ -56,8 +75,11 @@ export default function SearchForm() {
       </Dropdown>
       <Form onSubmit={handleSubmit}>
         <SearchBar
+          ref={inputRef}
           onChange={handleChange}
           placeholder='Search movies, tv, more ...'
+          term={term}
+          alert={alert}
         ></SearchBar>
         <Button onClick={() => {}} />
       </Form>
@@ -75,7 +97,7 @@ const Form = styled.form`
   display: flex;
 `;
 
-const SearchBar = styled.input`
+const SearchBar = styled.input<{ term: string; alert: boolean }>`
   flex: 1;
   width: 20rem;
   border: none;
@@ -83,6 +105,13 @@ const SearchBar = styled.input`
   padding: 1rem 0.7rem;
   outline: 0;
   background-color: var(--white);
+
+  ${({ term, alert }) =>
+    term === '' &&
+    alert &&
+    `  border: 0.2rem solid var(--red);
+  box-sizing: content-box important!;
+  padding: 0.8rem 0.5rem;`};
 
   &::placeholder {
     color: grayLight4;
@@ -109,7 +138,7 @@ const Dropdown = styled.div`
   margin-right: 0.2rem;
 `;
 
-const Toggle = styled.button`
+const Toggle = styled.button<{ alert: boolean; mediaType: string }>`
   width: 100%;
   height: 100%;
   font-size: 1.1em;
@@ -118,6 +147,14 @@ const Toggle = styled.button`
   background-color: var(--white);
   border: none;
   cursor: pointer;
+
+  ${({ mediaType, alert }) =>
+    mediaType === '' &&
+    alert &&
+    `
+  border: 3px solid var(--red);
+  box-sizing: content-box important!;
+  `};
 
   &:after {
     display: inline-block;

@@ -8,7 +8,7 @@ const API_KEY_NYT = process.env.API_KEY_NYT;
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['https://image.tmdb.org/t/p/original'],
+    domains: ['image.tmdb.org'],
   },
   async redirects() {
     return [
@@ -40,6 +40,10 @@ const nextConfig = {
       {
         source: '/api/trending/:category',
         destination: `${BASE_URL_TMDB}/trending/:category/day?api_key=${API_KEY_TMDB}`,
+      },
+      {
+        source: '/api/search/:mediaType/:query',
+        destination: `${BASE_URL_TMDB}/search/:mediaType?api_key=${API_KEY_TMDB}&language=en-US&query=:query&page=1&include_adult=false`,
       },
     ];
   },

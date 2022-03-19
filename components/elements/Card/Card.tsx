@@ -2,6 +2,7 @@ import { HTMLAttributes, LegacyRef, PropsWithChildren } from 'react';
 import Image from 'next/image';
 import { tmdbImageLoader } from '@utils/imageLoader';
 import { useRouter } from 'next/router';
+import PopcornImage from '@assets/images/popcorn.svg';
 import styled from '@emotion/styled';
 
 interface CardProps extends PropsWithChildren<HTMLAttributes<HTMLDivElement>> {
@@ -11,7 +12,7 @@ interface CardProps extends PropsWithChildren<HTMLAttributes<HTMLDivElement>> {
   src?: string;
   innerRef?: LegacyRef<HTMLElement>;
   contentId?: number;
-  mediaType?: string;
+  mediaType?: string | string[];
 }
 
 export default function Card({
@@ -34,7 +35,7 @@ export default function Card({
   return (
     <Container ref={innerRef} onClick={() => handleClick()} {...props}>
       <Anchor>
-        {src && (
+        {src ? (
           <Image
             loader={tmdbImageLoader}
             src={src}
@@ -44,7 +45,10 @@ export default function Card({
             placeholder='blur'
             blurDataURL='/static/images/rotten.svg'
           />
+        ) : (
+          <Image src={PopcornImage} alt={title} width={500} height={700} />
         )}
+
         <Title>{title}</Title>
         {overview && (
           <Text>{overview.split(' ').slice(0, 15).join(' ')} ...</Text>

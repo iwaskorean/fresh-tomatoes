@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { tmdbImageLoader } from '@utils/imageLoader';
+import PopcornImage from '@assets/images/popcorn.svg';
 import styled from '@emotion/styled';
 
 interface DetailLayoutProps {
@@ -26,26 +27,41 @@ export default function Detail({
   return (
     <Wrapper>
       <ImageBox>
-        <Image
-          loader={tmdbImageLoader}
-          src={poster || ''}
-          alt={title || ''}
-          width={500}
-          height={700}
-          placeholder='blur'
-          blurDataURL='/static/images/rotten.svg'
-        />
+        {poster ? (
+          <Image
+            loader={tmdbImageLoader}
+            src={poster || ''}
+            alt={title || ''}
+            width={500}
+            height={700}
+            placeholder='blur'
+            blurDataURL='/static/images/rotten.svg'
+          />
+        ) : (
+          <Image
+            src={PopcornImage}
+            alt={title || ''}
+            width={500}
+            height={700}
+          />
+        )}
       </ImageBox>
 
       <Group>
         <Title>{title}</Title>
         <TagLine>{tagline}</TagLine>
         <SubTitle>{overview}</SubTitle>
-        <Box>
-          <Text>Release date: {releaseDate}</Text>
-          {runningTime && <Text>Running time: {runningTime}mins</Text>}
-          <Text>Genre: {genres?.map((genre) => genre.name).join(', ')}</Text>
-        </Box>
+        {releaseDate && (
+          <Box>
+            <Text>Release date: {releaseDate || '-'}</Text>
+            <Text>
+              Running time: {runningTime ? runningTime + 'mins' : '-'}
+            </Text>
+            <Text>
+              Genre: {genres?.map((genre) => genre.name).join(', ') || '-'}
+            </Text>
+          </Box>
+        )}
         {homepage && (
           <Anchor target='_blank' href={homepage} rel='noopener noreferrer'>
             See more details

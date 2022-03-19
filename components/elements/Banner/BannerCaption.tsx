@@ -1,25 +1,34 @@
-import { HTMLAttributes } from 'react';
+import { AnchorHTMLAttributes } from 'react';
 import styled from '@emotion/styled';
 
-interface BannerCaptionProps extends HTMLAttributes<HTMLDivElement> {
+interface BannerCaptionProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   title: string;
   subTitle?: string[];
+  link?: string;
 }
 
 export default function BannerCaption({
   title,
   subTitle,
+  link,
   ...props
 }: BannerCaptionProps) {
   return (
-    <Container {...props}>
+    <Container
+      target='_blank'
+      rel='noopener noreferrer'
+      href={link}
+      link={link}
+      {...props}
+    >
       <Title>{title}</Title>
       <SubTitle>{subTitle?.join(', ')}</SubTitle>
     </Container>
   );
 }
 
-const Container = styled.div`
+const Container = styled.a<{ link?: string }>`
+  text-decoration: none;
   width: 90%;
   position: absolute;
   background-color: rgba(0 0 0 / 0.3);
@@ -32,6 +41,15 @@ const Container = styled.div`
   height: 6rem;
   border-radius: 3px;
   overflow-y: scroll;
+  transition: transform 0.3s;
+
+  ${({ link }) =>
+    link &&
+    `
+    &:hover {
+      transform: scale(1.05);
+    }
+  `}
 `;
 
 const Title = styled.h1`

@@ -10,15 +10,6 @@ const nextConfig = {
   images: {
     domains: ['image.tmdb.org'],
   },
-  async redirects() {
-    return [
-      {
-        source: '/before-path',
-        destination: '/after-path',
-        permanent: false,
-      },
-    ];
-  },
   async rewrites() {
     return [
       {

@@ -4,6 +4,7 @@ import { getTomatoMeter } from '@utils/index';
 import Heading from '@components/Heading/Heading';
 import Link from 'next/link';
 import styled from '@emotion/styled';
+import { breakpoints } from 'GlobalStyle';
 
 export default function Lists() {
   const [listItem, setListItem] =
@@ -107,12 +108,19 @@ const Wrapper = styled.section`
   width: 100%;
   display: flex;
   margin: 1rem 0;
+  @media (max-width: ${breakpoints.mobile}) {
+    flex-wrap: wrap;
+  }
 `;
 
 const Container = styled.div`
   width: 50%;
   & + & {
     border-left: 0.15rem solid var(--grayLight2);
+  }
+  @media (max-width: ${breakpoints.mobile}) {
+    width: 100%;
+    margin-top: 1rem;
   }
 `;
 

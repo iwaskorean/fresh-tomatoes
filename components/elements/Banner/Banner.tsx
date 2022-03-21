@@ -39,4 +39,5 @@ const Container = styled.section<{ src: string }>`
   position: relative;
   background: url(${({ src }) => src});
   background-size: cover;
+  background-position: 50%;
 `;

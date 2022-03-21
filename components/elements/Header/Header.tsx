@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import LogoImage from '../../../public/static/images/logo.svg';
 import Link from 'next/link';
-import styled from '@emotion/styled';
 import SearchForm from '@components/SearchForm/SearchForm';
+import styled from '@emotion/styled';
+import { breakpoints } from 'GlobalStyle';
 
 export default function Header() {
   const categories = [
@@ -50,6 +51,10 @@ const Container = styled.header`
   z-index: 1000;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    justify-content: center;
+  }
 `;
 
 const LogoLink = styled.a``;

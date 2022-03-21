@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import Carousel from '@components/Carousel/Carousel';
 import Banner from '@components/Banner/Banner';
 import { IArticle, IPerson } from '@type/index';
+import { breakpoints } from 'GlobalStyle';
 
 interface HeadlineProps extends HTMLAttributes<HTMLDivElement> {
   articles: IArticle[];
@@ -63,8 +64,12 @@ const Wrapper = styled.div`
   width: 100%;
   height: 22rem;
   display: grid;
-  grid-template-columns: 1fr 16rem 16rem;
+  grid-template-columns: 1fr repeat(2, 16rem);
   gap: 0.1rem;
+  @media (max-width: ${breakpoints.desktopSmall}) {
+    grid-template-columns: 100% 0 0;
+    overflow-x: hidden;
+  }
 `;
 
 const Inner = styled.span`

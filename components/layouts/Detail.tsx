@@ -2,6 +2,8 @@ import Image from 'next/image';
 import { tmdbImageLoader } from '@utils/imageLoader';
 import PopcornImage from '@assets/images/popcorn.svg';
 import styled from '@emotion/styled';
+import { breakpoints } from 'GlobalStyle';
+import { getTomatoMeter } from '@utils/tomatoMeter';
 
 interface DetailLayoutProps {
   title?: string;
@@ -12,6 +14,7 @@ interface DetailLayoutProps {
   genres?: { id: number; name: string }[];
   homepage?: string;
   tagline?: string | null;
+  vote?: number;
 }
 
 export default function Detail({
@@ -23,6 +26,7 @@ export default function Detail({
   genres,
   homepage,
   tagline,
+  vote = 0,
 }: DetailLayoutProps) {
   return (
     <Wrapper>
@@ -48,9 +52,16 @@ export default function Detail({
       </ImageBox>
 
       <Group>
+        <TomatoBox>
+          <TomatoMeter>{getTomatoMeter(vote)}</TomatoMeter>
+          <VoteAverage vote={vote * 10}>
+            {vote ? vote * 10 + '%' : '--'}
+          </VoteAverage>
+        </TomatoBox>
         <Title>{title}</Title>
         <TagLine>{tagline}</TagLine>
         <SubTitle>{overview}</SubTitle>
+
         {releaseDate && (
           <Box>
             <Text>Release date: {releaseDate || '-'}</Text>
@@ -62,6 +73,7 @@ export default function Detail({
             </Text>
           </Box>
         )}
+
         {homepage && (
           <Anchor target='_blank' href={homepage} rel='noopener noreferrer'>
             See more details
@@ -75,19 +87,30 @@ export default function Detail({
 const Wrapper = styled.section`
   margin: 2rem 0;
   width: 95%;
-  height: 90vh;
+  height: auto;
+  min-height: 80vh;
   display: grid;
   grid-template-columns: auto 1fr;
+  @media (max-width: ${breakpoints.desktopSmall}) {
+    grid-template-columns: 1fr;
+    height: auto;
+    padding-bottom: 3rem;
+  }
   gap: 2.5%;
   align-items: center;
 `;
 
 const ImageBox = styled.div``;
 
-const Group = styled.div``;
+const Group = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
 
 const Box = styled.div`
-  margin: 2.5rem 0;
+  margin: 1.5rem 0;
 `;
 
 const Title = styled.h1`
@@ -120,6 +143,8 @@ const Text = styled.p`
 `;
 
 const Anchor = styled.a`
+  width: 12rem;
+  text-align: center;
   text-decoration: none;
   border: none;
   font-size: 1.1rem;
@@ -130,4 +155,29 @@ const Anchor = styled.a`
   &:hover {
     background-color: var(--blueHover);
   }
+`;
+
+const TomatoBox = styled.div`
+  display: flex;
+  width: 4.5rem;
+  margin: 0.5rem 0;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const VoteAverage = styled.p<{ vote?: number }>`
+  font-weight: var(--font-bold);
+  font-size: 1rem;
+
+  ${({ vote }) =>
+    !vote &&
+    `
+    color: var(--grayLight4);
+    letter-spacing: 0.1rem;
+  `}
+`;
+
+const TomatoMeter = styled.span`
+  width: 2rem;
+  height: 100%;
 `;

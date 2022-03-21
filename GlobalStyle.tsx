@@ -2,6 +2,14 @@ import { Global, css } from '@emotion/react';
 
 export const GlobalStyle = () => <Global styles={globalStyle} />;
 
+export const breakpoints = {
+  mobile: '480px',
+  tablet: '768px',
+  desktopSmall: '1024px',
+  desktopLarge: '1366px',
+  desktopExtraLarge: '1920px',
+};
+
 const globalStyle = css`
   @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700&family=Oswald:wght@600&display=swap');
 
@@ -39,6 +47,17 @@ const globalStyle = css`
     font-family: 'Libre Franklin', sans-serif;
     font-weight: 400;
     font-size: 16px;
+
+    @media (min-width: ${breakpoints.desktopExtraLarge}) {
+      font-size: 20px;
+    }
+
+    @media (max-width: ${breakpoints.tablet}) {
+      font-size: 14px;
+    }
+    @media (max-width: ${breakpoints.tablet}) {
+      font-size: 12px;
+    }
   }
 
   body {

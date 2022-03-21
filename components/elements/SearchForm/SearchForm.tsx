@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import { breakpoints } from 'GlobalStyle';
 
 type MediaTypeType = 'Movie' | 'TV' | '';
 
@@ -66,7 +67,7 @@ export default function SearchForm() {
           mediaType={mediaType}
           alert={alert}
         >
-          {mediaType ? mediaType : 'Media Type'}
+          {mediaType || 'Media Type'}
         </Toggle>
         <Group show={show}>
           <Item onClick={() => handleSetMediaType('Movie')}>Movie</Item>
@@ -100,6 +101,9 @@ const Form = styled.form`
 const SearchBar = styled.input<{ term: string; alert: boolean }>`
   flex: 1;
   width: 20rem;
+  @media (max-width: ${breakpoints.mobile}) {
+    width: 100%;
+  }
   border: none;
   font-size: 1rem;
   padding: 1rem 0.7rem;

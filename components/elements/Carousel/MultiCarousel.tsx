@@ -2,6 +2,7 @@ import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import { CarouselProps } from '@components/Carousel/Carousel';
 import SlideButton from '@components/Carousel/SlideButton';
 import styled from '@emotion/styled';
+import { breakpoints } from 'GlobalStyle';
 
 export default function MultiCarousel({ children, ...props }: CarouselProps) {
   const [current, setCurrent] = useState(0);
@@ -55,6 +56,13 @@ const Wrapper = styled.div`
   width: 100%;
   position: relative;
   overflow-x: hidden;
+  @media (max-width: ${breakpoints.tablet}) {
+    overflow-x: scroll;
+    ::-webkit-scrollbar {
+      width: 0 !important;
+      display: none;
+    }
+  }
 `;
 
 const Inner = styled.div<{
@@ -67,6 +75,13 @@ const Inner = styled.div<{
   display: flex;
   transform: translate3d(${({ current }) => current * -80}vw, 0, 0);
   transition: transform 0.6s ease-in-out;
+  @media (max-width: ${breakpoints.desktopSmall}) {
+    --slideWidth: calc(80vw / 3);
+  }
+  @media (max-width: ${breakpoints.tablet}) {
+    --slideWidth: calc(90vw / 3);
+    transform: none;
+  }
 `;
 
 const Slide = styled.div<{

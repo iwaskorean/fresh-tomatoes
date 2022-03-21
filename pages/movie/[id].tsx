@@ -20,6 +20,7 @@ export default function MovieDetail({
         genres={result?.genres}
         homepage={result?.homepage}
         tagline={result?.tagline}
+        vote={result?.vote_average}
       />
     </>
   );

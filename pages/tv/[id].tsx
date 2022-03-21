@@ -20,6 +20,7 @@ export default function TvShowDetail({
         homepage={result?.homepage}
         genres={result?.genres}
         tagline={result?.tagline}
+        vote={result?.vote_average}
       />
     </>
   );

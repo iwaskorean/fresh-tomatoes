@@ -1,6 +1,6 @@
 import { InferGetStaticPropsType } from 'next';
 import { IPerson, ITVShow, IMovie } from '@type/index';
-import Seo from '@components/Seo/Seo';
+import Seo from '@layouts/app/Seo/Seo';
 import Nav from '@components/Nav/Nav';
 import Heading from '@components/Heading/Heading';
 import Poster from '@components/Poster/Poster';

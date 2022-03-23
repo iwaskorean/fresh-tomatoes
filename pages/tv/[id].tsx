@@ -2,7 +2,7 @@ import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import Heading from '@components/Heading/Heading';
 import Detail from '@layouts/Detail';
 import { ITVShowDetail } from '@type/tv';
-import Seo from '@components/Seo/Seo';
+import Seo from '@layouts/app/Seo/Seo';
 
 export default function TvShowDetail({
   result,

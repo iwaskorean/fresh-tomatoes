@@ -2,7 +2,7 @@ import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { IMovieDetail } from '@type/movie';
 import Detail from '@layouts/Detail';
 import Heading from '@components/Heading/Heading';
-import Seo from '@components/Seo/Seo';
+import Seo from '@layouts/app/Seo/Seo';
 
 export default function MovieDetail({
   result,

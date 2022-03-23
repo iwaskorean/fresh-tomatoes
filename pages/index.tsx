@@ -1,15 +1,12 @@
-import { InferGetServerSidePropsType, InferGetStaticPropsType } from 'next';
-import Seo from '@components/Seo/Seo';
-import Headline from '@layouts/Headline';
+import { InferGetStaticPropsType } from 'next';
+import Seo from '@layouts/app/Seo/Seo';
 import {
   IPeopleResponse,
   IArticleResponse,
   IUpcomingMovie,
   IMovieResponse,
 } from '@type/index';
-import Upcoming from '@layouts/Upcoming';
-import Lists from '@layouts/Lists';
-import Cards from '@layouts/Cards';
+import HomeLayout from '@layouts/home';
 
 export default function Home({
   articles,
@@ -19,10 +16,11 @@ export default function Home({
   return (
     <>
       <Seo title='Home' />
-      <Headline articles={articles} people={people} />
-      <Upcoming upcomingMovies={upcomingMovies} />
-      <Lists />
-      <Cards />
+      <HomeLayout
+        articles={articles}
+        people={people}
+        upcomingMovies={upcomingMovies}
+      />
     </>
   );
 }

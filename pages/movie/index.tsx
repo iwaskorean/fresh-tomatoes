@@ -3,7 +3,7 @@ import Heading from '@components/Heading/Heading';
 import { IMovie } from '@type/movie';
 import Card from '@components/Card/Card';
 import CardList from '@components/Card/CardList';
-import Seo from '@components/Seo/Seo';
+import Seo from '@layouts/app/Seo/Seo';
 import { useRouter } from 'next/router';
 
 export default function Movies({

@@ -17,9 +17,7 @@ export default function Nav({ items, ...props }: NavProps) {
     <Container {...props}>
       {items.map(({ text, url }, i: number) => (
         <Link key={i} href={`/${url}`} passHref={true}>
-          <StyledLink active={text === router.query.category}>
-            {text}
-          </StyledLink>
+          <Anchor active={text === router.query.category}>{text}</Anchor>
         </Link>
       ))}
     </Container>
@@ -39,7 +37,7 @@ const Container = styled.nav`
   margin: 2.5rem 0;
 `;
 
-const StyledLink = styled.a<{ active: boolean }>`
+const Anchor = styled.a<{ active: boolean }>`
   text-decoration: none;
   color: ${({ active }) => (active ? 'var(--blue)' : 'var(--black)')};
   font-size: 1.5rem;

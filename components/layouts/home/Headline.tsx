@@ -19,28 +19,17 @@ export default function Headline({
     <Wrapper {...props}>
       <Inner>
         <Carousel>
-          {articles.map(
-            (
-              {
-                multimedia,
-                display_title,
-                headline,
-                summary_short,
-                link,
-              }: IArticle,
-              i: number
-            ) => (
-              <Banner
-                key={i}
-                badge='Article'
-                src={multimedia.src}
-                alt={display_title}
-                title={headline}
-                subTitle={[summary_short]}
-                link={link.url}
-              />
-            )
-          )}
+          {articles.map((article, i: number) => (
+            <Banner
+              key={i}
+              badge='Article'
+              src={article.multimedia.src}
+              alt={article.display_title}
+              title={article.headline}
+              subTitle={[article.summary_short]}
+              link={article.link.url}
+            />
+          ))}
         </Carousel>
       </Inner>
 

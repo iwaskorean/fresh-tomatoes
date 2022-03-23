@@ -1,7 +1,7 @@
 import Card from '@components/Card/Card';
 import CardList from '@components/Card/CardList';
 import Heading from '@components/Heading/Heading';
-import Seo from '@components/Seo/Seo';
+import Seo from '@layouts/app/Seo/Seo';
 import { ITVShow } from '@type/tv';
 import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';

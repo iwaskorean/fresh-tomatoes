@@ -1,4 +1,4 @@
-import { InferGetServerSidePropsType } from 'next';
+import { InferGetServerSidePropsType, InferGetStaticPropsType } from 'next';
 import Seo from '@components/Seo/Seo';
 import Headline from '@layouts/Headline';
 import {
@@ -15,7 +15,7 @@ export default function Home({
   articles,
   people,
   upcomingMovies,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <>
       <Seo title='Home' />
@@ -27,15 +27,15 @@ export default function Home({
   );
 }
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   const articles: IArticleResponse = await (
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reviews`)
+    await fetch(`${process.env.BASE_URL}/reviews`)
   ).json();
   const people: IPeopleResponse = await (
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/people`)
+    await fetch(`${process.env.BASE_URL}/people`)
   ).json();
   const upcomingMovies: IMovieResponse<IUpcomingMovie> = await (
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/movies/upcoming`)
+    await fetch(`${process.env.BASE_URL}/movies/upcoming`)
   ).json();
   const rand = Math.floor(Math.random() * 18);
 
@@ -45,5 +45,6 @@ export const getServerSideProps = async () => {
       people: people.results.slice(rand, rand + 2),
       upcomingMovies: upcomingMovies.results,
     },
+    revalidate: 60 * 60 * 24,
   };
 };

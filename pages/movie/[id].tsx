@@ -30,9 +30,7 @@ export const getServerSideProps = async ({
   params,
 }: GetServerSidePropsContext) => {
   const id = params?.id;
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/movies/${id}`
-  );
+  const response = await fetch(`${process.env.BASE_URL}/movies/${id}`);
 
   if (response.status === 404) {
     return {

@@ -3,12 +3,12 @@ import CardList from '@components/Card/CardList';
 import Heading from '@components/Heading/Heading';
 import Seo from '@components/Seo/Seo';
 import { ITVShow } from '@type/tv';
-import { InferGetServerSidePropsType } from 'next';
+import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 
 export default function TvShows({
   results,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   const router = useRouter();
 
   return (
@@ -36,12 +36,13 @@ export default function TvShows({
   );
 }
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   const { results }: { results: ITVShow[] } = await (
-    await fetch(`http://localhost:3000/api/tv/popular`)
+    await fetch(`${process.env.BASE_URL}/tv/popular`)
   ).json();
 
   return {
     props: { results },
+    revalidate: 60 * 60 * 24,
   };
 };

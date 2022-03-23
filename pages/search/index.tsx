@@ -63,7 +63,7 @@ export const getServerSideProps = async ({
   const { mediaType, term } = query;
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/search/${mediaType}/${term}`
+    `${process.env.BASE_URL}/search/${mediaType}/${term}`
   );
 
   const { results }: { results: (ITVShow & IMovie)[] } = await response.json();

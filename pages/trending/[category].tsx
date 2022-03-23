@@ -1,4 +1,4 @@
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
+import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 import { items, ResultType } from '.';
 import Seo from '@components/Seo/Seo';
 import Nav from '@components/Nav/Nav';
@@ -9,7 +9,7 @@ import Posters from '@layouts/Posters';
 export default function Trending({
   results,
   category,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <>
       <Seo
@@ -49,26 +49,28 @@ export default function Trending({
   );
 }
 
-const BASE_URL = 'http://localhost:3000/api';
+export const getStaticPaths = async () => {
+  const trendings = ['tv', 'person', 'movie'];
 
-export const getServerSideProps = async ({
-  params,
-}: GetServerSidePropsContext) => {
-  const trending = ['tv', 'person', 'movie'];
-  const category = params?.category as string;
-
-  if (!trending.includes(category)) {
+  const paths = trendings.map((trending) => {
     return {
-      redirect: {
-        permanent: true,
-        destination: '/trending',
+      params: {
+        category: trending,
       },
-      props: {},
     };
-  }
+  });
+
+  return {
+    paths,
+    fallback: false,
+  };
+};
+
+export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
+  const category = params?.category ?? '';
 
   const { results }: { results: ResultType[] } = await (
-    await fetch(`${BASE_URL}/trending/${category}`)
+    await fetch(`${process.env.BASE_URL}/trending/${category}`)
   ).json();
 
   return {

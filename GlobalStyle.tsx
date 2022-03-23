@@ -35,6 +35,9 @@ const globalStyle = css`
     --font-oswald: Oswald, 'sans-serif';
 
     --layout-width: 80%;
+    @media (max-width: ${breakpoints.mobile}) {
+      --layout-width: 95%;
+    }
   }
 
   * {

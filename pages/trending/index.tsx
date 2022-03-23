@@ -1,4 +1,4 @@
-import { InferGetServerSidePropsType } from 'next';
+import { InferGetStaticPropsType } from 'next';
 import { IPerson, ITVShow, IMovie } from '@type/index';
 import Seo from '@components/Seo/Seo';
 import Nav from '@components/Nav/Nav';
@@ -29,7 +29,7 @@ export const items = [
 
 export default function Trend({
   results,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <>
       <Seo title='Trending' />
@@ -53,14 +53,13 @@ export default function Trend({
   );
 }
 
-const BASE_URL = 'http://localhost:3000/api';
-
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   const { results }: { results: ResultType[] } = await (
-    await fetch(`${BASE_URL}/trending/all`)
+    await fetch(`${process.env.BASE_URL}/trending/all`)
   ).json();
 
   return {
     props: { results },
+    revalidate: 60 * 60 * 24,
   };
 };

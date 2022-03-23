@@ -100,7 +100,9 @@ const Wrapper = styled.section`
   align-items: center;
 `;
 
-const ImageBox = styled.div``;
+const ImageBox = styled.div`
+  justify-self: center;
+`;
 
 const Group = styled.div`
   height: 100%;

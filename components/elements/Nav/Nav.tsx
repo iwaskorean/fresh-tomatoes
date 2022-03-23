@@ -17,7 +17,9 @@ export default function Nav({ items, ...props }: NavProps) {
     <Container {...props}>
       {items.map(({ text, url }, i: number) => (
         <Link key={i} href={`/${url}`} passHref={true}>
-          <StyledLink active={text === router.query.query}>{text}</StyledLink>
+          <StyledLink active={text === router.query.category}>
+            {text}
+          </StyledLink>
         </Link>
       ))}
     </Container>

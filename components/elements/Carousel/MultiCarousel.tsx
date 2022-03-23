@@ -82,6 +82,10 @@ const Inner = styled.div<{
     --slideWidth: calc(90vw / 3);
     transform: none;
   }
+  @media (max-width: ${breakpoints.mobile}) {
+    --slideWidth: calc(85vw / 2);
+    transform: none;
+  }
 `;
 
 const Slide = styled.div<{

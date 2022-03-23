@@ -1,4 +1,4 @@
-import { InferGetServerSidePropsType } from 'next';
+import { InferGetStaticPropsType } from 'next';
 import Heading from '@components/Heading/Heading';
 import { IMovie } from '@type/movie';
 import Card from '@components/Card/Card';
@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 
 export default function Movies({
   results,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   const router = useRouter();
 
   return (
@@ -34,12 +34,13 @@ export default function Movies({
   );
 }
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   const { results }: { results: IMovie[] } = await (
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/movies/popular`)
+    await fetch(`${process.env.BASE_URL}/movies/popular`)
   ).json();
 
   return {
     props: { results },
+    revalidate: 60 * 60 * 24,
   };
 };

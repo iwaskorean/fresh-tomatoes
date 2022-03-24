@@ -1,63 +1,54 @@
+import { HTMLAttributes } from 'react';
 import Image from 'next/image';
-import { tmdbImageLoader } from '@utils/imageLoader';
 import PopcornImage from '@assets/images/popcorn.svg';
+import PosterImage from '@components/Poster/PosterImage';
+import TomatoMeter from '@components/TomatoMeter/TomatoMeter';
 import styled from '@emotion/styled';
 import { breakpoints } from 'GlobalStyle';
-import { getTomatoMeter } from '@utils/tomatoMeter';
 
-interface DetailLayoutProps {
-  title?: string;
-  overview?: string;
-  poster?: string;
-  releaseDate?: string;
-  runningTime?: number;
-  genres?: { id: number; name: string }[];
-  homepage?: string;
-  tagline?: string | null;
-  vote?: number;
+interface IDetailItem {
+  title: string;
+  overview: string;
+  poster: string;
+  releaseDate: string;
+  runningTime: number;
+  homepage: string;
+  genres: {
+    name: string[] | string;
+  }[];
+  tagline: string | null;
+  vote: number;
 }
 
-export default function Detail({
-  title,
-  overview,
-  poster,
-  releaseDate,
-  runningTime,
-  genres,
-  homepage,
-  tagline,
-  vote = 0,
-}: DetailLayoutProps) {
+interface DetailLayoutProps extends HTMLAttributes<HTMLDivElement> {
+  item: IDetailItem;
+}
+
+export default function Detail({ item, ...props }: DetailLayoutProps) {
+  const {
+    title,
+    overview,
+    poster,
+    releaseDate,
+    runningTime,
+    genres,
+    homepage,
+    tagline,
+    vote,
+  } = item;
+
   return (
-    <Wrapper>
+    <Wrapper {...props}>
       <ImageBox>
         {poster ? (
-          <Image
-            loader={tmdbImageLoader}
-            src={poster || ''}
-            alt={title || ''}
-            width={500}
-            height={700}
-            placeholder='blur'
-            blurDataURL='/static/images/rotten.svg'
-          />
+          <PosterImage src={poster} alt={title} />
         ) : (
-          <Image
-            src={PopcornImage}
-            alt={title || ''}
-            width={500}
-            height={700}
-          />
+          <Image src={PopcornImage} alt={title} width={500} height={700} />
         )}
       </ImageBox>
 
       <Group>
-        <TomatoBox>
-          <TomatoMeter>{getTomatoMeter(vote)}</TomatoMeter>
-          <VoteAverage vote={vote * 10}>
-            {vote ? vote * 10 + '%' : '--'}
-          </VoteAverage>
-        </TomatoBox>
+        <TomatoMeter voteAverage={vote} />
         <Title>{title}</Title>
         <TagLine>{tagline}</TagLine>
         <SubTitle>{overview}</SubTitle>
@@ -69,7 +60,7 @@ export default function Detail({
               Running time: {runningTime ? runningTime + 'mins' : '-'}
             </Text>
             <Text>
-              Genre: {genres?.map((genre) => genre.name).join(', ') || '-'}
+              Genre: {genres.map((genre) => genre.name).join(', ') || '-'}
             </Text>
           </Box>
         )}
@@ -157,29 +148,4 @@ const Anchor = styled.a`
   &:hover {
     background-color: var(--blueHover);
   }
-`;
-
-const TomatoBox = styled.div`
-  display: flex;
-  width: 4.5rem;
-  margin: 0.5rem 0;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const VoteAverage = styled.p<{ vote?: number }>`
-  font-weight: var(--font-bold);
-  font-size: 1rem;
-
-  ${({ vote }) =>
-    !vote &&
-    `
-    color: var(--grayLight4);
-    letter-spacing: 0.1rem;
-  `}
-`;
-
-const TomatoMeter = styled.span`
-  width: 2rem;
-  height: 100%;
 `;

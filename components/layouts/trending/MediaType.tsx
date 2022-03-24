@@ -2,31 +2,25 @@ import Heading from '@components/Heading/Heading';
 import Nav from '@components/Nav/Nav';
 import Poster from '@components/Poster/Poster';
 import Posters from '@layouts/trending/Posters';
-import { ResultType } from 'pages/trending';
+import { navItems, TrendingPageLayoutProps } from './index';
 
-export interface TrendingPageLayoutProps {
-  results: ResultType[];
+interface MediaTypeTrendingPageLayoutProps extends TrendingPageLayoutProps {
+  category: string | string[];
 }
 
-export const navItems = [
-  { text: 'all', url: 'trending' },
-  { text: 'movie', url: 'trending/movie' },
-  { text: 'tv', url: 'trending/tv' },
-  { text: 'person', url: 'trending/person' },
-];
-
-export default function TrendingPageLayout({
+export default function MediaTypeTrendingPageLayout({
   results,
-}: TrendingPageLayoutProps) {
+  category,
+}: MediaTypeTrendingPageLayoutProps) {
   return (
     <>
       <Nav items={navItems} />
-      <Heading>Trending: All</Heading>
+      <Heading>Trending: {category || ''}</Heading>
       <Posters>
-        {results.map((result) => (
+        {results?.map((result) => (
           <Poster
             key={result.id}
-            src={result.poster_path}
+            src={result.profile_path || result.poster_path || '-'}
             title={result.name || result.title}
             vote={result.vote_average}
             contentId={result.id}

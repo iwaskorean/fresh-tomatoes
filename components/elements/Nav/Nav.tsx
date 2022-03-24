@@ -1,24 +1,16 @@
 import { HTMLAttributes } from 'react';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
+import Item, { INavItem } from './Item';
 import styled from '@emotion/styled';
 
 interface NavProps extends HTMLAttributes<HTMLDivElement> {
-  items: {
-    text: string;
-    url: string;
-  }[];
+  items: INavItem[];
 }
 
 export default function Nav({ items, ...props }: NavProps) {
-  const router = useRouter();
-
   return (
     <Container {...props}>
       {items.map(({ text, url }, i: number) => (
-        <Link key={i} href={`/${url}`} passHref={true}>
-          <Anchor active={text === router.query.category}>{text}</Anchor>
-        </Link>
+        <Item url={url} text={text} key={i} />
       ))}
     </Container>
   );
@@ -35,16 +27,4 @@ const Container = styled.nav`
   box-shadow: 0 0 1rem var(--grayLight2);
   padding: 0 1rem;
   margin: 2.5rem 0;
-`;
-
-const Anchor = styled.a<{ active: boolean }>`
-  text-decoration: none;
-  color: ${({ active }) => (active ? 'var(--blue)' : 'var(--black)')};
-  font-size: 1.5rem;
-  padding: 0.5rem;
-  text-transform: uppercase;
-  cursor: pointer;
-  &:hover {
-    color: var(--blueHover);
-  }
 `;

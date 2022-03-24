@@ -1,10 +1,7 @@
 import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
-import { items, ResultType } from '.';
 import Seo from '@layouts/app/Seo/Seo';
-import Nav from '@components/Nav/Nav';
-import Heading from '@components/Heading/Heading';
-import Poster from '@components/Poster/Poster';
-import Posters from '@layouts/Posters';
+import MediaTypeTrendingPageLayout from '@layouts/trending/MediaType';
+import { ResultType } from '.';
 
 export default function Trending({
   results,
@@ -21,30 +18,7 @@ export default function Trending({
             : 'Trending'
         }
       />
-      <Nav items={items} />
-      <Heading>Trending: {category || ''}</Heading>
-      <Posters>
-        {results?.map(
-          ({
-            id,
-            title,
-            media_type,
-            name,
-            poster_path,
-            profile_path,
-            vote_average,
-          }) => (
-            <Poster
-              key={id}
-              src={profile_path || poster_path || '-'}
-              title={name || title}
-              vote={vote_average || 0}
-              contentId={id}
-              mediaType={media_type}
-            />
-          )
-        )}
-      </Posters>
+      <MediaTypeTrendingPageLayout results={results} category={category} />
     </>
   );
 }
@@ -75,5 +49,6 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
 
   return {
     props: { results, category },
+    revalidate: 60 * 60 * 24,
   };
 };

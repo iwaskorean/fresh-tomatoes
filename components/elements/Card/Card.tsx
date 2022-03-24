@@ -22,7 +22,6 @@ export default function Card({
   src,
   innerRef,
   contentId,
-  children,
   mediaType,
   ...props
 }: CardProps) {
@@ -32,34 +31,35 @@ export default function Card({
     router.push(`/${mediaType}/${contentId}`);
   };
 
+  const getImage = (src?: string) =>
+    src ? (
+      <Image
+        loader={tmdbImageLoader}
+        src={src}
+        alt={title}
+        width={500}
+        height={700}
+        placeholder='blur'
+        blurDataURL='/static/images/rotten.svg'
+      />
+    ) : (
+      <Image src={PopcornImage} alt={title} width={500} height={700} />
+    );
+
   return (
     <Container ref={innerRef} onClick={() => handleClick()} {...props}>
       <Anchor>
-        {src ? (
-          <Image
-            loader={tmdbImageLoader}
-            src={src}
-            alt={title}
-            width={500}
-            height={700}
-            placeholder='blur'
-            blurDataURL='/static/images/rotten.svg'
-          />
-        ) : (
-          <Image src={PopcornImage} alt={title} width={500} height={700} />
-        )}
-
+        {getImage(src)}
         <Title>{title}</Title>
         {overview && (
           <Text>{overview.split(' ').slice(0, 15).join(' ')} ...</Text>
         )}
         {releaseData && (
-          <Date>
+          <Box>
             <DateText>Release Date:</DateText>
             <DateText>{releaseData}</DateText>
-          </Date>
+          </Box>
         )}
-        {children}
       </Anchor>
     </Container>
   );
@@ -99,7 +99,7 @@ const Text = styled.h2`
   padding: 0 1rem;
 `;
 
-const Date = styled.div`
+const Box = styled.div`
   width: 100%;
   display: flex;
   align-items: center;

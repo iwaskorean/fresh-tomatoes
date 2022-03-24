@@ -1,5 +1,4 @@
 import { HTMLAttributes } from 'react';
-import Link from 'next/link';
 import { getTomatoMeter } from '@utils/tomatoMeter';
 import VotePercentage from './VotePercentage';
 import styled from '@emotion/styled';
@@ -17,13 +16,7 @@ export default function TomatoMeter({
   return (
     <Container {...props}>
       <TomatoImage>{getTomatoMeter(voteAverage)}</TomatoImage>
-      {href ? (
-        <Link href={href} passHref={true}>
-          <VotePercentage vote={voteAverage} />
-        </Link>
-      ) : (
-        <VotePercentage vote={voteAverage} />
-      )}
+      <VotePercentage vote={voteAverage} href={href} />
     </Container>
   );
 }
@@ -31,9 +24,9 @@ export default function TomatoMeter({
 const Container = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.3rem;
 `;
 
 const TomatoImage = styled.span`
-  width: 1.3rem;
+  width: 1.2rem;
 `;

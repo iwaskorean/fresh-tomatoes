@@ -1,28 +1,18 @@
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { IMovieDetail } from '@type/movie';
-import Detail from '@layouts/Detail';
-import Heading from '@components/Heading/Heading';
 import Seo from '@layouts/app/Seo/Seo';
+import MovieDetailPageLayout from '@layouts/movie/MovieDetail';
 
 export default function MovieDetail({
   result,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
-    <>
-      <Seo title={`${result?.title} | Movie`} />
-      <Heading style={{ marginTop: '3rem' }}>Movie Details</Heading>
-      <Detail
-        title={result?.title}
-        overview={result?.overview}
-        poster={result?.poster_path}
-        releaseDate={result?.release_date}
-        runningTime={result?.runtime}
-        genres={result?.genres}
-        homepage={result?.homepage}
-        tagline={result?.tagline}
-        vote={result?.vote_average}
-      />
-    </>
+    result && (
+      <>
+        <Seo title={`${result.title} | Movie`} />
+        <MovieDetailPageLayout result={result} />
+      </>
+    )
   );
 }
 

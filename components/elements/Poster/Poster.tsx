@@ -1,10 +1,9 @@
 import { HTMLAttributes, useState } from 'react';
-import Image from 'next/image';
-import { getTomatoMeter } from '@utils/index';
-import { tmdbImageLoader } from '@utils/imageLoader';
-import Trailer from '@components/Trailer/Trailer';
-import PlayIcon from '@assets/icons/play-icon.png';
 import { useRouter } from 'next/router';
+import Trailer from '@components/Trailer/Trailer';
+import TomatoMeter from '@components/TomatoMeter/TomatoMeter';
+import PlayButton from './PlayButton';
+import PosterImage from './PosterImage';
 import styled from '@emotion/styled';
 
 interface PosterProps extends HTMLAttributes<HTMLDivElement> {
@@ -27,31 +26,21 @@ export default function Poster({
 
   const router = useRouter();
 
-  const handleShowTrailer = () => {
-    setShowTrailer((prev) => !prev);
+  const handleShowTrailer = (isShow: boolean) => {
+    setShowTrailer(isShow);
   };
 
   return (
     <Container {...props}>
       <ImageBox>
-        <Image
-          loader={tmdbImageLoader}
-          src={src}
-          alt={title || ''}
-          width={500}
-          height={700}
-          placeholder='blur'
-          blurDataURL='/static/images/rotten.svg'
-        />
+        <PosterImage src={src} alt={title} />
         {contentId && mediaType !== 'person' && (
           <>
-            <Button onClick={() => setShowTrailer(true)}>
-              <Image src={PlayIcon} alt='play' />
-            </Button>
+            <PlayButton handleClick={handleShowTrailer} />
             {showTrailer && (
               <Trailer
                 show={showTrailer}
-                handleShow={handleShowTrailer}
+                handleShow={() => handleShowTrailer(false)}
                 mediaType={mediaType}
                 contentId={contentId}
               />
@@ -59,21 +48,17 @@ export default function Poster({
           </>
         )}
       </ImageBox>
-      <Anchor>
-        <Box
-          onClick={() =>
-            mediaType !== 'person' && router.push(`/${mediaType}/${contentId}`)
-          }
-        >
-          <Group>
-            <TomatoMeter>{getTomatoMeter(vote)}</TomatoMeter>
-            <VoteAverage vote={vote * 10}>
-              {vote ? vote * 10 + '%' : '--'}
-            </VoteAverage>
-          </Group>
-          <Title>{title}</Title>
-        </Box>
-      </Anchor>
+      <Box
+        onClick={() =>
+          mediaType !== 'person' && router.push(`/${mediaType}/${contentId}`)
+        }
+      >
+        <TomatoMeter
+          style={{ margin: '0.5rem 0 0.3rem 0' }}
+          voteAverage={vote}
+        />
+        <Title>{title}</Title>
+      </Box>
     </Container>
   );
 }
@@ -98,55 +83,14 @@ const ImageBox = styled.div`
 const Box = styled.div`
   cursor: pointer;
   &:hover {
-    color: var(--blueHover);
+    h1,
+    a {
+      color: var(--blueHover);
+    }
   }
 `;
 
-const Anchor = styled.a``;
-
-const Group = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  margin: 0.3rem 0;
-`;
-
-const VoteAverage = styled.p<{ vote: number }>`
-  font-weight: var(--font-bold);
-  font-size: 1rem;
-
-  ${({ vote }) =>
-    !vote &&
-    `
-    color: var(--grayLight4);
-    letter-spacing: 0.1rem;
-  `}
-`;
-
-const TomatoMeter = styled.span`
-  width: 1.5rem;
-  height: 100%;
-`;
 const Title = styled.h1`
   font-weight: var(--font-regular);
   font-size: 1rem;
-`;
-
-const Button = styled.button`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: calc(100% - 4px);
-  cursor: pointer;
-  border: none;
-  outline: 0;
-  background: rgba(0 0 0 / 0.2);
-  border-radius: 0.8rem;
-
-  span {
-    width: 4rem !important;
-    opacity: 0.9 !important;
-  }
 `;

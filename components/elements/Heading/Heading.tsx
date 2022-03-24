@@ -4,26 +4,20 @@ import { HTMLAttributes, PropsWithChildren } from 'react';
 export default function Heading({
   children,
   ...props
-}: PropsWithChildren<HTMLAttributes<HTMLDivElement>>) // {
-//   children: string | string[];
-// }
-{
+}: PropsWithChildren<HTMLAttributes<HTMLHeadingElement>>) {
   return (
-    <Container {...props}>
+    <Title {...props}>
       <Highlight />
-      <Text>{children}</Text>
-    </Container>
+      {children}
+    </Title>
   );
 }
 
-const Container = styled.div`
+const Title = styled.h1`
   width: 100%;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-`;
-
-const Text = styled.h1`
   font-family: var(--font-oswald);
   text-transform: uppercase;
   font-size: 1.4rem;

@@ -1,12 +1,8 @@
 import { InferGetStaticPropsType } from 'next';
 import Seo from '@layouts/app/Seo/Seo';
-import {
-  IPeopleResponse,
-  IArticleResponse,
-  IUpcomingMovie,
-  IMovieResponse,
-} from '@type/index';
+import { IUpcomingMovie, IResponse, IPerson, IArticle } from '@type/index';
 import HomeLayout from '@layouts/home';
+import { typedFetch } from '@utils/typedFetch';
 
 export default function Home({
   articles,
@@ -26,15 +22,16 @@ export default function Home({
 }
 
 export const getStaticProps = async () => {
-  const articles: IArticleResponse = await (
-    await fetch(`${process.env.BASE_URL}/reviews`)
-  ).json();
-  const people: IPeopleResponse = await (
-    await fetch(`${process.env.BASE_URL}/people`)
-  ).json();
-  const upcomingMovies: IMovieResponse<IUpcomingMovie> = await (
-    await fetch(`${process.env.BASE_URL}/movies/upcoming`)
-  ).json();
+  const articles = await typedFetch<IResponse<IArticle>>(
+    `${process.env.BASE_URL}/reviews`
+  );
+
+  const people = await typedFetch<IResponse<IPerson>>(
+    `${process.env.BASE_URL}/people`
+  );
+  const upcomingMovies = await typedFetch<IResponse<IUpcomingMovie>>(
+    `${process.env.BASE_URL}/movies/upcoming`
+  );
   const rand = Math.floor(Math.random() * 18);
 
   return {

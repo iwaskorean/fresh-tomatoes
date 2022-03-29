@@ -1,7 +1,9 @@
 import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 import Seo from '@layouts/app/Seo/Seo';
 import MediaTypeTrendingPageLayout from '@layouts/trending/MediaType';
-import { ResultType } from '.';
+import { ResultType } from './index';
+import { IResponse } from '@type/response';
+import { typedFetch } from '@utils/typedFetch';
 
 export default function Trending({
   results,
@@ -43,9 +45,9 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
   const category = params?.category ?? '';
 
-  const { results }: { results: ResultType[] } = await (
-    await fetch(`${process.env.BASE_URL}/trending/${category}`)
-  ).json();
+  const { results } = await typedFetch<IResponse<ResultType>>(
+    `${process.env.BASE_URL}/trending/${category}`
+  );
 
   return {
     props: { results, category },

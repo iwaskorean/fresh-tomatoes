@@ -3,7 +3,6 @@ import React, {
   PropsWithChildren,
   ReactElement,
   useEffect,
-  useRef,
   useState,
 } from 'react';
 import Slide from './Slide';
@@ -16,32 +15,34 @@ export interface CarouselProps
 export default function Carousel({ children, ...props }: CarouselProps) {
   const [current, setCurrent] = useState(1);
   const [prev, setPrev] = useState(0);
-  const isMoving = useRef(false);
+  const [isMoving, setIsMoving] = useState(false);
   const childrens = React.Children.toArray(children) as ReactElement[];
   const slides = [childrens[childrens.length - 1], ...childrens, childrens[0]];
 
   useEffect(() => {
-    isMoving.current = true;
-    setTimeout(() => {
-      isMoving.current = false;
-    }, 800);
-  }, [current]);
+    if (isMoving === true) {
+      setTimeout(() => {
+        setIsMoving(false);
+      }, 300);
+    }
+  }, [isMoving]);
 
   useEffect(() => {
     if (current === 0) {
       setTimeout(() => {
         setCurrent(slides.length - 2);
-      }, 300);
+      }, 200);
     }
     if (current === slides.length - 1) {
       setTimeout(() => {
         setCurrent(1);
-      }, 300);
+      }, 200);
     }
   }, [current, slides.length]);
 
   const handlePrev = () => {
-    if (!isMoving.current) {
+    if (!isMoving) {
+      setIsMoving(true);
       setPrev(current);
       if (current === 0) {
         setCurrent(slides.length - 1);
@@ -52,7 +53,8 @@ export default function Carousel({ children, ...props }: CarouselProps) {
   };
 
   const handleNext = () => {
-    if (!isMoving.current) {
+    if (!isMoving) {
+      setIsMoving(true);
       setPrev(current);
       if (current === slides.length - 1) {
         setCurrent(0);
@@ -105,5 +107,5 @@ const Inner = styled.div<{
       ? 'transform 0s;'
       : prev === length - 2 && current === 1
       ? 'transform 0s;'
-      : 'transform 0.33s;'};
+      : 'transform 0.2s;'};
 `;

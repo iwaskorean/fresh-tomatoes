@@ -1,7 +1,8 @@
 import { InferGetStaticPropsType } from 'next';
 import Seo from '@layouts/app/Seo/Seo';
 import TvPageLayout from '@layouts/tv';
-import { ITVShow } from '@type/tv';
+import { typedFetch } from '@utils/typedFetch';
+import { IResponse, ITVShow } from '@type/index';
 
 export default function TvShows({
   results,
@@ -15,9 +16,9 @@ export default function TvShows({
 }
 
 export const getStaticProps = async () => {
-  const { results }: { results: ITVShow[] } = await (
-    await fetch(`${process.env.BASE_URL}/tv/popular`)
-  ).json();
+  const { results } = await typedFetch<IResponse<ITVShow>>(
+    `${process.env.BASE_URL}/tv/popular`
+  );
 
   return {
     props: { results },

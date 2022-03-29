@@ -1,8 +1,8 @@
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
-import { IMovie } from '@type/movie';
-import { ITVShow } from '@type/tv';
 import Seo from '@layouts/app/Seo/Seo';
 import SearchPageLayout from '@layouts/search';
+import { typedFetch } from '@utils/typedFetch';
+import { IMovie, ITVShow, IResponse } from '@type/index';
 
 export default function Search({
   results,
@@ -22,11 +22,9 @@ export const getServerSideProps = async ({
 }: GetServerSidePropsContext) => {
   const { mediaType, term } = query;
 
-  const response = await fetch(
+  const { results } = await typedFetch<IResponse<ITVShow & IMovie>>(
     `${process.env.BASE_URL}/search/${mediaType}/${term}`
   );
-
-  const { results }: { results: (ITVShow & IMovie)[] } = await response.json();
 
   return {
     props: { results, mediaType, term },

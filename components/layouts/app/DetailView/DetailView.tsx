@@ -3,6 +3,8 @@ import Image from 'next/image';
 import PopcornImage from '@assets/images/popcorn.svg';
 import PosterImage from '@components/Poster/PosterImage';
 import TomatoMeter from '@components/TomatoMeter/TomatoMeter';
+import Contents from './Contents';
+import Anchor from './Anchor';
 import styled from '@emotion/styled';
 import { breakpoints } from 'GlobalStyle';
 
@@ -54,22 +56,14 @@ export default function Detail({ item, ...props }: DetailLayoutProps) {
         <SubTitle>{overview}</SubTitle>
 
         {releaseDate && (
-          <Box>
-            <Text>Release date: {releaseDate || '-'}</Text>
-            <Text>
-              Running time: {runningTime ? runningTime + 'mins' : '-'}
-            </Text>
-            <Text>
-              Genre: {genres.map((genre) => genre.name).join(', ') || '-'}
-            </Text>
-          </Box>
+          <Contents
+            releaseDate={releaseDate}
+            runningTime={runningTime}
+            genres={genres}
+          />
         )}
 
-        {homepage && (
-          <Anchor target='_blank' href={homepage} rel='noopener noreferrer'>
-            See more details
-          </Anchor>
-        )}
+        {homepage && <Anchor homepage={homepage} />}
       </Group>
     </Wrapper>
   );
@@ -93,6 +87,10 @@ const Wrapper = styled.section`
 
 const ImageBox = styled.div`
   justify-self: center;
+  width: 27rem;
+  @media (max-width: ${breakpoints.mobile}) {
+    width: 22rem;
+  }
 `;
 
 const Group = styled.div`
@@ -100,10 +98,6 @@ const Group = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-`;
-
-const Box = styled.div`
-  margin: 1.5rem 0;
 `;
 
 const Title = styled.h1`
@@ -126,26 +120,4 @@ const SubTitle = styled.h2`
   color: var(--grayDark2);
   margin: 1rem 0;
   overflow-y: scroll;
-`;
-
-const Text = styled.p`
-  color: var(--grayDark2);
-  font-size: 1.1rem;
-  margin: 0.5rem 0;
-  letter-spacing: 0.04rem;
-`;
-
-const Anchor = styled.a`
-  width: 12rem;
-  text-align: center;
-  text-decoration: none;
-  border: none;
-  font-size: 1.1rem;
-  background-color: var(--blue);
-  color: var(--white);
-  padding: 0.7rem 1rem;
-  border-radius: 0.3rem;
-  &:hover {
-    background-color: var(--blueHover);
-  }
 `;

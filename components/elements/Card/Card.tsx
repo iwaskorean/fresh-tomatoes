@@ -37,8 +37,9 @@ export default function Card({
         loader={tmdbImageLoader}
         src={src}
         alt={title}
-        width={500}
-        height={700}
+        width={600}
+        height={900}
+        layout='responsive'
         placeholder='blur'
         blurDataURL='/static/images/rotten.svg'
       />
@@ -48,7 +49,7 @@ export default function Card({
 
   return (
     <Container ref={innerRef} onClick={() => handleClick()} {...props}>
-      <Anchor>
+      <Anchor href='#'>
         {getImage(src)}
         <Title>{title}</Title>
         {overview && (
@@ -90,7 +91,10 @@ const Title = styled.h1`
   text-align: center;
 `;
 
-const Anchor = styled.a``;
+const Anchor = styled.a`
+  text-decoration: none;
+  color: var(--black);
+`;
 
 const Text = styled.h2`
   font-size: 0.9rem;

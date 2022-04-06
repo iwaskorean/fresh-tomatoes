@@ -20,8 +20,9 @@ export default function PosterImage({
       loader={tmdbImageLoader}
       src={src}
       alt={alt}
-      width={width ?? 500}
-      height={height ?? 700}
+      width={width ?? 600}
+      height={height ?? 900}
+      layout='responsive'
       placeholder='blur'
       blurDataURL='/static/images/rotten.svg'
       {...props}

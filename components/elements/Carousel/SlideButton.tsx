@@ -21,6 +21,7 @@ export default function SlideButton({
       next={next}
       onClick={handleSlide}
       multiCarousel={multiCarousel}
+      aria-label={`${prev ? 'prev' : 'next'} slide`}
       {...props}
     />
   );

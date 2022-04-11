@@ -1,8 +1,8 @@
 import { HTMLAttributes, LegacyRef, PropsWithChildren } from 'react';
 import Image from 'next/image';
 import { tmdbImageLoader } from '@utils/imageLoader';
-import { useRouter } from 'next/router';
 import PopcornImage from '@assets/images/popcorn.svg';
+import Link from 'next/link';
 import styled from '@emotion/styled';
 
 interface CardProps extends PropsWithChildren<HTMLAttributes<HTMLDivElement>> {
@@ -25,12 +25,6 @@ export default function Card({
   mediaType,
   ...props
 }: CardProps) {
-  const router = useRouter();
-
-  const handleClick = () => {
-    router.push(`/${mediaType}/${contentId}`);
-  };
-
   const getImage = (src?: string) =>
     src ? (
       <Image
@@ -48,27 +42,26 @@ export default function Card({
     );
 
   return (
-    <Container ref={innerRef} onClick={() => handleClick()} {...props}>
-      <Anchor href='#'>
-        {getImage(src)}
-        <Title>{title}</Title>
-        {overview && (
-          <Text>{overview.split(' ').slice(0, 15).join(' ')} ...</Text>
-        )}
-        {releaseData && (
-          <Box>
-            <DateText>Release Date:</DateText>
-            <DateText>{releaseData}</DateText>
-          </Box>
-        )}
-      </Anchor>
+    <Container ref={innerRef} {...props}>
+      <Link href={`/${mediaType}/${contentId}`} passHref={true}>
+        <Anchor>
+          {getImage(src)}
+          <Title>{title}</Title>
+          {overview && <Text>{overview}</Text>}
+          {releaseData && (
+            <Box>
+              <DateText>Release Date:</DateText>
+              <DateText>{releaseData}</DateText>
+            </Box>
+          )}
+        </Anchor>
+      </Link>
     </Container>
   );
 }
 
 const Container = styled.article`
   background-color: var(--white);
-  padding: 2rem;
   border-radius: 0.3rem;
   box-shadow: 0px 0px 3px var(--grayLight4);
   display: flex;
@@ -87,13 +80,13 @@ const Title = styled.h1`
   font-weight: var(--font-regular);
   margin: 1rem 0;
   padding: 0 1rem;
-
   text-align: center;
 `;
 
 const Anchor = styled.a`
   text-decoration: none;
   color: var(--black);
+  padding: 2rem;
 `;
 
 const Text = styled.h2`
@@ -101,6 +94,13 @@ const Text = styled.h2`
   color: var(--grayDark1);
   font-weight: var(--font-light);
   padding: 0 1rem;
+
+  white-space: normal;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
 `;
 
 const Box = styled.div`

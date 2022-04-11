@@ -14,22 +14,24 @@ function useFetch<T>(query: string, pageNumber: number = 1) {
   useEffect(() => {
     setLoading(true);
     setError(false);
-    fetch(
-      `${baseUrl}/${query}?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=${pageNumber}`
-    )
-      .then((response) => response.json())
-      .then(
-        ({ results, total_pages }: { results: T[]; total_pages: number }) => {
-          setList((prev) => [...prev, ...results]);
-          setHasMore(total_pages > pageNumber);
-          setLoading(false);
-        }
-      )
-      .catch((error) => {
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${baseUrl}/${query}?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=${pageNumber}`
+        );
+        const { results, total_pages } = await response.json();
+        setList((prev) => [...prev, ...results]);
+        setHasMore(total_pages > pageNumber);
+        setLoading(false);
+      } catch (error) {
         setError(true);
         console.log(error);
         setLoading(false);
-      });
+      }
+    };
+
+    fetchData();
   }, [query, pageNumber]);
 
   return { list, loading, error, hasMore };

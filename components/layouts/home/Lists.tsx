@@ -1,55 +1,15 @@
-import { useEffect, useState } from 'react';
 import { IMovie, ITVShow } from '@type/index';
+import useFetch from 'hooks/useFetch';
+import List from '@components/List/List';
 import Heading from '@components/Heading/Heading';
 import { breakpoints } from 'GlobalStyle';
-import List from '@components/List/List';
 import styled from '@emotion/styled';
 
 export default function Lists() {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [playingMovies, setPlayingMovies] = useState<IMovie[]>([]);
-  const [playingShows, setPlayingShows] = useState<ITVShow[]>([]);
+  const movieFetchResults = useFetch<IMovie>('movie/now_playing');
+  const showFetchResults = useFetch<ITVShow>('tv/on_the_air');
 
-  useEffect(() => {
-    const baseUrl = 'https://api.themoviedb.org/3';
-
-    const fetchData = async () => {
-      setLoading(true);
-
-      await fetch(
-        `${baseUrl}/movie/now_playing?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`
-      )
-        .then((response) => response.json())
-        .then(({ results }) => {
-          setPlayingMovies(results.slice(0, 10));
-          setLoading(false);
-        })
-        .catch((error) => {
-          setLoading(false);
-          console.log(error);
-          setError(true);
-        });
-
-      await fetch(
-        `${baseUrl}/tv/on_the_air?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`
-      )
-        .then((response) => response.json())
-        .then(({ results }) => {
-          setPlayingShows(results.slice(0, 10));
-          setLoading(false);
-        })
-        .catch((error) => {
-          setLoading(false);
-          console.log(error);
-          setError(true);
-        });
-    };
-
-    fetchData();
-  }, []);
-
-  const showAlertMessage = () => {
+  const showAlertMessage = (loading: boolean, error: unknown) => {
     return (
       <>
         {loading && <Loading>Loading ...</Loading>}
@@ -62,30 +22,34 @@ export default function Lists() {
     <Wrapper>
       <Container>
         <Heading>Movies in Theater Now</Heading>
-        {showAlertMessage()}
+        {showAlertMessage(movieFetchResults.loading, movieFetchResults.error)}
         <List
-          items={playingMovies.map(({ id, title, vote_average }) => {
-            return {
-              contentId: id,
-              text: title,
-              voteAverage: vote_average,
-              href: `/movie/${id}`,
-            };
-          })}
+          items={movieFetchResults.list
+            .slice(0, 15)
+            .map(({ id, title, vote_average }) => {
+              return {
+                contentId: id,
+                text: title,
+                voteAverage: vote_average,
+                href: `/movie/${id}`,
+              };
+            })}
         />
       </Container>
       <Container>
         <Heading>TV Shows on the air</Heading>
-        {showAlertMessage()}
+        {showAlertMessage(showFetchResults.loading, showFetchResults.error)}
         <List
-          items={playingShows.map(({ id, name, vote_average }) => {
-            return {
-              contentId: id,
-              text: name,
-              voteAverage: vote_average,
-              href: `/tv/${id}`,
-            };
-          })}
+          items={showFetchResults.list
+            .slice(0, 15)
+            .map(({ id, name, vote_average }) => {
+              return {
+                contentId: id,
+                text: name,
+                voteAverage: vote_average,
+                href: `/tv/${id}`,
+              };
+            })}
         />
       </Container>
     </Wrapper>

@@ -1,8 +1,6 @@
 import styled from '@emotion/styled';
 
 export default function Anchor({ homepage }: { homepage: string }) {
-  console.log('##');
-
   return (
     <StyledAnchor target='_blank' href={homepage} rel='noopener noreferrer'>
       See more details

@@ -4,7 +4,7 @@ import Poster from '@components/Poster/Poster';
 import Heading from '@components/Heading/Heading';
 import { IUpcomingMovie } from '@type/movie';
 import styled from '@emotion/styled';
-import { breakpoints } from 'GlobalStyle';
+import { tablet } from '@utils/responsive';
 
 interface UpcomingLayoutProps extends HTMLAttributes<HTMLDivElement> {
   upcomingMovies: IUpcomingMovie[];
@@ -40,9 +40,5 @@ const Wrapper = styled.section`
   background: var(--white);
   margin: 3rem 0;
 
-  @media (max-width: ${breakpoints.tablet}) {
-    button {
-      display: none;
-    }
-  }
+  ${tablet(`button { display: none; }`)}
 `;

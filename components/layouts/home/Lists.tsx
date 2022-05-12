@@ -2,8 +2,8 @@ import { IMovie, ITVShow } from '@type/index';
 import useFetch from 'hooks/useFetch';
 import List from '@components/List/List';
 import Heading from '@components/Heading/Heading';
-import { breakpoints } from 'GlobalStyle';
 import styled from '@emotion/styled';
+import { mobile } from '@utils/responsive';
 
 export default function Lists() {
   const movieFetchResults = useFetch<IMovie>('movie/now_playing');
@@ -60,9 +60,7 @@ const Wrapper = styled.section`
   width: 100%;
   display: flex;
   margin: 1rem 0;
-  @media (max-width: ${breakpoints.mobile}) {
-    flex-wrap: wrap;
-  }
+  ${mobile({ flexWrap: 'wrap' })}
 `;
 
 const Container = styled.div`
@@ -70,10 +68,7 @@ const Container = styled.div`
   & + & {
     border-left: 0.15rem solid var(--grayLight2);
   }
-  @media (max-width: ${breakpoints.mobile}) {
-    width: 100%;
-    margin-top: 1rem;
-  }
+  ${mobile({ width: '100%', marginTop: '1rem' })}
 `;
 
 const Loading = styled.h1`

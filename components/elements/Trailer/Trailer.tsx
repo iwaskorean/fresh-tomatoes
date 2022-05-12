@@ -2,6 +2,8 @@ import { HTMLAttributes, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Overlay from './Overlay';
 import Content from './Content';
+import { typedFetch } from '@utils/typedFetch';
+import { IResponse } from '@type/index';
 import styled from '@emotion/styled';
 
 interface TrailerProps extends HTMLAttributes<HTMLDivElement> {
@@ -9,6 +11,19 @@ interface TrailerProps extends HTMLAttributes<HTMLDivElement> {
   handleShow(): void;
   mediaType?: string;
   contentId: number;
+}
+
+interface IVideo {
+  id: string;
+  iso_639_1: string;
+  iso_3166_1: string;
+  key: string;
+  name: string;
+  official: boolean;
+  published_at: string;
+  site: string;
+  size: number;
+  type: string;
 }
 
 export default function Trailer({
@@ -35,17 +50,15 @@ export default function Trailer({
   }, []);
 
   useEffect(() => {
-    fetch(
-      `https://api.themoviedb.org/3/${mediaType}/${contentId}/videos?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US`
-    )
-      .then((res) => res.json())
-      .then(({ results }) => {
-        const id = results[results.length - 1].key;
-        setVideoId(id);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const fetchVideoId = async () => {
+      const { results } = await typedFetch<IResponse<IVideo>>(
+        `https://api.themoviedb.org/3/${mediaType}/${contentId}/videos?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US`
+      );
+
+      setVideoId(results[results.length - 1].key);
+    };
+
+    fetchVideoId();
   }, [contentId, mediaType]);
 
   return createPortal(

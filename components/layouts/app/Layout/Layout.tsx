@@ -1,6 +1,6 @@
 import { PropsWithChildren, ReactNode } from 'react';
+import { mobile } from '@utils/responsive';
 import styled from '@emotion/styled';
-import { breakpoints } from 'GlobalStyle';
 
 export default function Layout({ children }: PropsWithChildren<ReactNode>) {
   return (
@@ -29,13 +29,12 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  margin-bottom: 3rem;
 `;
 
 const LeaderBoard = styled.div`
   width: var(--layout-width);
   height: 3rem;
   background: transparent;
-  @media (max-width: ${breakpoints.mobile}) {
-    display: none;
-  }
+  ${mobile({ display: 'none' })};
 `;

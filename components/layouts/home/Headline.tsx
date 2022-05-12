@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import Carousel from '@components/Carousel/Carousel';
 import Banner from '@components/Banner/Banner';
 import { IArticle, IPerson } from '@type/index';
-import { breakpoints } from 'GlobalStyle';
+import { desktopSmall } from '@utils/responsive';
 
 interface HeadlineProps extends HTMLAttributes<HTMLDivElement> {
   articles: IArticle[];
@@ -55,10 +55,10 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr repeat(2, 16rem);
   gap: 0.1rem;
-  @media (max-width: ${breakpoints.desktopSmall}) {
-    grid-template-columns: 100% 0 0;
-    overflow-x: hidden;
-  }
+  ${desktopSmall({
+    gridTemplateColumns: '100% 0 0',
+    overflowX: 'hidden',
+  })}
 `;
 
 const Inner = styled.span`

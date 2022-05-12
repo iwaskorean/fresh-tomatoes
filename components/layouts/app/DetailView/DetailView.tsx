@@ -5,8 +5,8 @@ import PosterImage from '@components/Poster/PosterImage';
 import TomatoMeter from '@components/TomatoMeter/TomatoMeter';
 import Contents from './Contents';
 import Anchor from './Anchor';
+import { desktopSmall, mobile } from '@utils/responsive';
 import styled from '@emotion/styled';
-import { breakpoints } from 'GlobalStyle';
 
 interface IDetailItem {
   title: string;
@@ -76,11 +76,11 @@ const Wrapper = styled.section`
   min-height: 80vh;
   display: grid;
   grid-template-columns: auto 1fr;
-  @media (max-width: ${breakpoints.desktopSmall}) {
-    grid-template-columns: 1fr;
-    height: auto;
-    padding-bottom: 3rem;
-  }
+  ${desktopSmall({
+    gridTemplateColumns: '1fr',
+    height: 'auto',
+    paddingBottom: '3rem',
+  })}
   gap: 2.5%;
   align-items: center;
 `;
@@ -88,9 +88,7 @@ const Wrapper = styled.section`
 const ImageBox = styled.div`
   justify-self: center;
   width: 27rem;
-  @media (max-width: ${breakpoints.mobile}) {
-    width: 22rem;
-  }
+  ${mobile({ width: '22rem' })};
 `;
 
 const Group = styled.div`

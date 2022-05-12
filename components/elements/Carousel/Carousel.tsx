@@ -1,7 +1,6 @@
 import React, {
   HTMLAttributes,
   PropsWithChildren,
-  ReactElement,
   useEffect,
   useState,
 } from 'react';
@@ -16,7 +15,7 @@ export default function Carousel({ children, ...props }: CarouselProps) {
   const [current, setCurrent] = useState(1);
   const [prev, setPrev] = useState(0);
   const [isMoving, setIsMoving] = useState(false);
-  const childrens = React.Children.toArray(children) as ReactElement[];
+  const childrens = React.Children.toArray(children);
   const slides = [childrens[childrens.length - 1], ...childrens, childrens[0]];
 
   useEffect(() => {
@@ -67,7 +66,7 @@ export default function Carousel({ children, ...props }: CarouselProps) {
   return (
     <Container {...props}>
       <Inner length={slides.length} current={current} prev={prev}>
-        {slides.map((children: any, i: any) => {
+        {slides.map((children, i) => {
           return <Slide key={i}>{children}</Slide>;
         })}
       </Inner>

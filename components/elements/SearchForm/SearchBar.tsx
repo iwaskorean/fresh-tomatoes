@@ -1,6 +1,6 @@
 import { ChangeEvent, InputHTMLAttributes, RefObject } from 'react';
 import styled from '@emotion/styled';
-import { breakpoints } from 'GlobalStyle';
+import { mobile } from '@utils/responsive';
 
 interface SerachBarProps extends InputHTMLAttributes<HTMLInputElement> {
   handleChange(e: ChangeEvent<HTMLInputElement>): void;
@@ -50,7 +50,5 @@ const Input = styled.input<{ term: string; alert: boolean }>`
     font-size: 0.9rem;
   }
 
-  @media (max-width: ${breakpoints.mobile}) {
-    width: 100%;
-  }
+  ${mobile({ width: '100%' })}
 `;

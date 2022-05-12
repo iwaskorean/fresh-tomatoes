@@ -1,12 +1,13 @@
 import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import { CarouselProps } from '@components/Carousel/Carousel';
 import SlideButton from '@components/Carousel/SlideButton';
-import styled from '@emotion/styled';
 import { breakpoints } from 'GlobalStyle';
+import { desktopSmall, mobile, tablet } from '@utils/responsive';
+import styled from '@emotion/styled';
 
 export default function MultiCarousel({ children, ...props }: CarouselProps) {
   const [current, setCurrent] = useState(0);
-  const childrens = React.Children.toArray(children) as ReactElement[];
+  const childrens = React.Children.toArray(children);
   const viewItemsLength = 5;
   const isMoving = useRef(false);
 
@@ -25,7 +26,12 @@ export default function MultiCarousel({ children, ...props }: CarouselProps) {
         length={childrens.length}
       >
         {childrens.map((children, i: number) => (
-          <Slide key={i} current={current} length={childrens.length}>
+          <Slide
+            key={i}
+            current={current}
+            length={childrens.length}
+            viewItemsLength={viewItemsLength}
+          >
             {children}
           </Slide>
         ))}
@@ -52,46 +58,51 @@ export default function MultiCarousel({ children, ...props }: CarouselProps) {
   );
 }
 
+interface StylingProps {
+  current: number;
+  length: number;
+  viewItemsLength: number;
+}
+
 const Wrapper = styled.div`
   width: 100%;
   position: relative;
   overflow-x: hidden;
-  @media (max-width: ${breakpoints.tablet}) {
+  ${tablet(`
     overflow-x: scroll;
     ::-webkit-scrollbar {
       width: 0 !important;
       display: none;
-    }
-  }
+    }`)}
 `;
 
-const Inner = styled.div<{
-  current: number;
-  length: number;
-  viewItemsLength: number;
-}>`
-  --slideWidth: calc(80vw / ${({ viewItemsLength }) => viewItemsLength});
-  width: calc(var(--slideWidth) * ${({ length }) => length});
+const Inner = styled.div<StylingProps>`
+  width: calc(
+    80vw / ${({ viewItemsLength }) => viewItemsLength} *
+      ${({ length }) => length}
+  );
   display: flex;
   transform: translate3d(${({ current }) => current * -80}vw, 0, 0);
   transition: transform 0.6s ease-in-out;
+
   @media (max-width: ${breakpoints.desktopSmall}) {
-    --slideWidth: calc(80vw / 3);
+    width: calc(80vw / 3 * ${({ length }) => length});
   }
+
   @media (max-width: ${breakpoints.tablet}) {
-    --slideWidth: calc(90vw / 3);
+    width: calc(90vw / 3 * ${({ length }) => length});
     transform: none;
   }
   @media (max-width: ${breakpoints.mobile}) {
-    --slideWidth: calc(85vw / 2);
+    width: calc(85vw / 2 * ${({ length }) => length});
     transform: none;
   }
 `;
 
-const Slide = styled.div<{
-  current: number;
-  length: number;
-}>`
-  width: var(--slideWidth);
+const Slide = styled.div<StylingProps>`
+  width: calc(80vw / ${({ viewItemsLength }) => viewItemsLength});
   padding: 0.5rem;
+  ${desktopSmall({ width: 'calc(80vw / 3)' })};
+  ${tablet({ width: 'calc(90vw / 3)' })};
+  ${mobile({ width: 'calc(85vw / 2)' })};
 `;

@@ -2,8 +2,8 @@ import Link from 'next/link';
 import Logo from './Logo';
 import Nav from './Nav';
 import SearchForm from '@components/SearchForm/SearchForm';
+import { tablet } from '@utils/responsive';
 import styled from '@emotion/styled';
-import { breakpoints } from 'GlobalStyle';
 
 export default function Header() {
   const items = [
@@ -38,9 +38,7 @@ const Container = styled.header`
   align-items: center;
   justify-content: space-between;
 
-  @media (max-width: ${breakpoints.tablet}) {
-    justify-content: center;
-  }
+  ${tablet({ justifyContent: 'center' })}
 `;
 
 const Anchor = styled.a``;

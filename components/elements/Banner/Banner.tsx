@@ -21,7 +21,7 @@ export default function Banner({
   link,
   ...props
 }: BannerProps) {
-  const bakcgroundUrl = src.includes('http')
+  const bakcgroundUrl = src?.includes('http')
     ? src
     : `https://image.tmdb.org/t/p/original/${src}`;
 

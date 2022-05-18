@@ -1,14 +1,9 @@
-import { HTMLAttributes, useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
-import Overlay from './Overlay';
-import Content from './Content';
+import { IframeHTMLAttributes, useEffect, useState } from 'react';
 import { typedFetch } from '@utils/typedFetch';
 import { IResponse } from '@type/index';
 import styled from '@emotion/styled';
 
-interface TrailerProps extends HTMLAttributes<HTMLDivElement> {
-  show: boolean;
-  handleShow(): void;
+interface TrailerProps extends IframeHTMLAttributes<HTMLIFrameElement> {
   mediaType?: string;
   contentId: number;
 }
@@ -26,28 +21,12 @@ interface IVideo {
   type: string;
 }
 
-export default function Trailer({
-  show,
-  handleShow,
+export default function Content({
   mediaType,
   contentId,
   ...props
 }: TrailerProps) {
   const [videoId, setVideoId] = useState('');
-
-  useEffect(() => {
-    document.body.style.cssText = `
-      position: fixed; 
-      top: -${window.scrollY}px;
-      overflow-y: scroll;
-      width: 100%;`;
-
-    return () => {
-      const scrollY = document.body.style.top;
-      document.body.style.cssText = '';
-      window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
-    };
-  }, []);
 
   useEffect(() => {
     const fetchVideoId = async () => {
@@ -61,24 +40,20 @@ export default function Trailer({
     fetchVideoId();
   }, [contentId, mediaType]);
 
-  return createPortal(
-    <>
-      {show && (
-        <Wrapper {...props}>
-          <Overlay handleShow={handleShow} />
-          <Content videoId={videoId} />
-        </Wrapper>
-      )}
-    </>,
-    document.body
+  return (
+    <Iframe
+      width='100%'
+      height='100%'
+      src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`}
+      {...props}
+    />
   );
 }
 
-const Wrapper = styled.div`
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 999;
+const Iframe = styled.iframe`
+  background-color: var(--white);
+  width: 70vw;
+  min-width: 20rem;
+  height: 40vw;
+  min-height: 10rem;
 `;

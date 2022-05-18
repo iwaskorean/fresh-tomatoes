@@ -1,10 +1,11 @@
 import { HTMLAttributes, useState } from 'react';
 import { useRouter } from 'next/router';
-import Trailer from '@components/Trailer/Trailer';
 import TomatoMeter from '@components/TomatoMeter/TomatoMeter';
 import PlayButton from './PlayButton';
 import PosterImage from './PosterImage';
 import styled from '@emotion/styled';
+import Modal from '@components/Modal/Modal';
+import Trailer from '@components/Trailer/Trailer';
 
 interface PosterProps extends HTMLAttributes<HTMLDivElement> {
   src: string;
@@ -38,12 +39,12 @@ export default function Poster({
           <>
             <PlayButton handleClick={handleShowTrailer} />
             {showTrailer && (
-              <Trailer
+              <Modal
                 show={showTrailer}
                 handleShow={() => handleShowTrailer(false)}
-                mediaType={mediaType}
-                contentId={contentId}
-              />
+              >
+                <Trailer mediaType={mediaType} contentId={contentId} />
+              </Modal>
             )}
           </>
         )}

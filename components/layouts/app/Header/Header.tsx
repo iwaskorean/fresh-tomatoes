@@ -1,19 +1,23 @@
 import Link from 'next/link';
 import Logo from './Logo';
-import Nav from './Nav';
 import SearchForm from '@components/SearchForm/SearchForm';
+import Nav from './Nav/Nav';
+import SubNav from './Nav/SubNav';
 import { tablet } from '@utils/responsive';
 import styled from '@emotion/styled';
 
-export default function Header() {
-  const items = [
-    { title: 'trending', path: 'trending' },
-    { title: 'movies', path: 'movie' },
-    { title: 'tv shows', path: 'tv' },
-  ];
+const items = [
+  { title: 'trending', path: 'trending' },
+  { title: 'movies', path: 'movie' },
+  { title: 'tv shows', path: 'tv' },
+];
 
+const subItems = [{ title: "What's the Fresh Tomatoes?", path: 'about' }];
+
+export default function Header() {
   return (
-    <Container>
+    <Wrapper>
+      <SubNav items={subItems} />
       <Link href='/' passHref={true}>
         <Anchor>
           <Logo />
@@ -21,22 +25,22 @@ export default function Header() {
       </Link>
       <SearchForm />
       <Nav items={items} />
-    </Container>
+    </Wrapper>
   );
 }
 
-const Container = styled.header`
+const Wrapper = styled.header`
   width: 100%;
   height: auto;
   min-height: 6rem;
-
   background-color: var(--blue);
   padding: 0 1rem;
   display: flex;
   flex-wrap: wrap;
-  z-index: 1000;
+  z-index: 10;
   align-items: center;
   justify-content: space-between;
+  padding-bottom: 0.5rem;
 
   ${tablet({ justifyContent: 'center' })}
 `;

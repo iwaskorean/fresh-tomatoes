@@ -1,28 +1,24 @@
-import { useState } from 'react';
 import NavWrapper from './Wrapper';
 import NavLink from './Link';
 import { NavProps } from './Nav';
-import Modal from '@components/Modal/Modal';
 import { desktopSmall, tablet } from '@utils/responsive';
 import styled from '@emotion/styled';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 export default function SubNav({ items }: NavProps) {
-  const [showSocials, setShowSocials] = useState(false);
-
-  const handleShowSocials = (isShow: boolean) => {
-    setShowSocials(isShow);
-  };
+  const { data: session, status } = useSession();
 
   return (
     <SubNavWrapper>
       {items.map(({ title, path }) => (
         <NavLink key={title} href={`/${path}`} title={title} />
       ))}
-      <Button onClick={() => handleShowSocials(true)}>Login</Button>
-      {showSocials && (
-        <Modal show={showSocials} handleShow={() => handleShowSocials(false)}>
-          <Temp>Social Login</Temp>
-        </Modal>
+
+      {session && <Button onClick={() => signOut()}>Sign Out</Button>}
+      {!session && (
+        <Button onClick={() => signIn()}>
+          {status === 'loading' ? '...' : 'Sign In'}
+        </Button>
       )}
     </SubNavWrapper>
   );
@@ -52,10 +48,4 @@ const Button = styled.button`
   margin: 0 1rem;
   border: none;
   cursor: pointer;
-`;
-
-const Temp = styled.div`
-  width: 500px;
-  height: 500px;
-  background-color: white;
 `;

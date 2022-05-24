@@ -1,10 +1,8 @@
-import { useSession } from 'next-auth/react';
 import { InferGetStaticPropsType } from 'next';
 import Seo from '@layouts/app/Seo/Seo';
 import { IUpcomingMovie, IResponse, IPerson, IArticle } from '@type/index';
 import HomeLayout from '@layouts/home';
 import { typedFetch } from '@utils/typedFetch';
-import { getToken } from 'next-auth/jwt';
 
 export default function Home({
   articles,

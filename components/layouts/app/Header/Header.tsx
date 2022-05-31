@@ -1,3 +1,4 @@
+import React from 'react';
 import Link from 'next/link';
 import Logo from './Logo';
 import SearchForm from '@components/SearchForm/SearchForm';
@@ -14,7 +15,7 @@ const items = [
 
 const subItems = [{ title: "What's the Fresh Tomatoes?", path: 'about' }];
 
-export default function Header() {
+function Header() {
   return (
     <Wrapper>
       <SubNav items={subItems} />
@@ -28,6 +29,8 @@ export default function Header() {
     </Wrapper>
   );
 }
+
+export default React.memo(Header);
 
 const Wrapper = styled.header`
   width: 100%;

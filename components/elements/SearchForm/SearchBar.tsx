@@ -1,31 +1,18 @@
-import { ChangeEvent, InputHTMLAttributes, RefObject } from 'react';
-import styled from '@emotion/styled';
+import React, { InputHTMLAttributes, RefObject } from 'react';
 import { mobile } from '@utils/responsive';
+import styled from '@emotion/styled';
 
 interface SerachBarProps extends InputHTMLAttributes<HTMLInputElement> {
-  handleChange(e: ChangeEvent<HTMLInputElement>): void;
   term: string;
   alert: boolean;
   inputRef: RefObject<HTMLInputElement>;
 }
 
-export default function SearchBar({
-  handleChange,
-  term,
-  alert,
-  inputRef,
-  ...props
-}: SerachBarProps) {
-  return (
-    <Input
-      ref={inputRef}
-      onChange={handleChange}
-      term={term}
-      alert={alert}
-      {...props}
-    />
-  );
+function SearchBar({ term, alert, inputRef, ...props }: SerachBarProps) {
+  return <Input ref={inputRef} term={term} alert={alert} {...props} />;
 }
+
+export default React.memo(SearchBar);
 
 const Input = styled.input<{ term: string; alert: boolean }>`
   flex: 1;

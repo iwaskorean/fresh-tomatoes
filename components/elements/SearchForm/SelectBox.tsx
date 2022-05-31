@@ -1,5 +1,6 @@
 import { HTMLAttributes, RefObject } from 'react';
 import styled from '@emotion/styled';
+import React from 'react';
 
 interface SelectBoxProps extends HTMLAttributes<HTMLDivElement> {
   selectRef: RefObject<HTMLDivElement>;
@@ -10,7 +11,7 @@ interface SelectBoxProps extends HTMLAttributes<HTMLDivElement> {
   alert: boolean;
 }
 
-export default function SelectBox({
+function SelectBox({
   selectRef,
   show,
   handleShow,
@@ -21,7 +22,7 @@ export default function SelectBox({
 }: SelectBoxProps) {
   return (
     <Select ref={selectRef} {...props}>
-      <Toggle onClick={() => handleShow()} mediaType={mediaType} alert={alert}>
+      <Toggle onClick={handleShow} mediaType={mediaType} alert={alert}>
         {mediaType || 'Media Type'}
       </Toggle>
 
@@ -32,6 +33,8 @@ export default function SelectBox({
     </Select>
   );
 }
+
+export default React.memo(SelectBox);
 
 const Select = styled.div`
   width: 8rem;

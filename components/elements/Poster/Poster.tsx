@@ -3,9 +3,9 @@ import { useRouter } from 'next/router';
 import TomatoMeter from '@components/TomatoMeter/TomatoMeter';
 import PlayButton from './PlayButton';
 import PosterImage from './PosterImage';
-import styled from '@emotion/styled';
 import Modal from '@components/Modal/Modal';
 import Trailer from '@components/Trailer/Trailer';
+import styled from '@emotion/styled';
 
 interface PosterProps extends HTMLAttributes<HTMLDivElement> {
   src: string;
@@ -31,35 +31,33 @@ export default function Poster({
     setShowTrailer(isShow);
   };
 
+  const handleMoveDetailPage = () => {
+    if (mediaType !== 'person') {
+      router.push(`/${mediaType}/${contentId}`);
+    }
+  };
+
   return (
     <Container {...props}>
       <ImageBox>
         <PosterImage src={src} alt={title} />
-        {contentId && mediaType !== 'person' && (
-          <>
-            <PlayButton handleClick={handleShowTrailer} />
-            {showTrailer && (
-              <Modal
-                show={showTrailer}
-                handleShow={() => handleShowTrailer(false)}
-              >
-                <Trailer mediaType={mediaType} contentId={contentId} />
-              </Modal>
-            )}
-          </>
+        {mediaType !== 'person' && (
+          <PlayButton handleClick={handleShowTrailer} />
         )}
       </ImageBox>
-      <Box
-        onClick={() =>
-          mediaType !== 'person' && router.push(`/${mediaType}/${contentId}`)
-        }
-      >
+      <Box onClick={handleMoveDetailPage}>
         <TomatoMeter
           style={{ margin: '0.5rem 0 0.3rem 0' }}
           voteAverage={vote}
         />
         <Title>{title}</Title>
       </Box>
+
+      {contentId && showTrailer && (
+        <Modal show={showTrailer} handleShow={() => handleShowTrailer(false)}>
+          <Trailer mediaType={mediaType} contentId={contentId} />
+        </Modal>
+      )}
     </Container>
   );
 }

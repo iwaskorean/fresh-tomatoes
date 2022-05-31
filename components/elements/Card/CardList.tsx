@@ -1,6 +1,5 @@
 import { HTMLAttributes, PropsWithChildren } from 'react';
 import styled from '@emotion/styled';
-import { breakpoints } from 'GlobalStyle';
 import { mobile, tablet } from '@utils/responsive';
 
 interface CardListProps

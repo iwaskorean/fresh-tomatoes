@@ -1,8 +1,8 @@
 import { HTMLAttributes, LegacyRef, PropsWithChildren } from 'react';
-import Image from 'next/image';
-import { tmdbImageLoader } from '@utils/imageLoader';
-import PopcornImage from '@assets/images/popcorn.svg';
 import Link from 'next/link';
+import Image from 'next/image';
+import PopcornImage from '@assets/images/popcorn.svg';
+import PosterImage from '@components/Poster/PosterImage';
 import styled from '@emotion/styled';
 
 interface CardProps extends PropsWithChildren<HTMLAttributes<HTMLDivElement>> {
@@ -27,16 +27,7 @@ export default function Card({
 }: CardProps) {
   const getImage = (src?: string) =>
     src ? (
-      <Image
-        loader={tmdbImageLoader}
-        src={src}
-        alt={title}
-        width={600}
-        height={900}
-        layout='responsive'
-        placeholder='blur'
-        blurDataURL='/static/images/rotten.svg'
-      />
+      <PosterImage src={src} alt={title} width={500} height={700} />
     ) : (
       <Image src={PopcornImage} alt={title} width={500} height={700} />
     );

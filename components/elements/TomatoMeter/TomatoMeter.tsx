@@ -1,7 +1,7 @@
 import { HTMLAttributes } from 'react';
-import { getTomatoMeter } from '@utils/tomatoMeter';
 import VotePercentage from './VotePercentage';
 import styled from '@emotion/styled';
+import MeterImage from './MeterImage';
 
 interface TomatoMeterProps extends HTMLAttributes<HTMLDivElement> {
   voteAverage: number;
@@ -15,7 +15,9 @@ export default function TomatoMeter({
 }: TomatoMeterProps) {
   return (
     <Container {...props}>
-      <TomatoImage>{getTomatoMeter(voteAverage)}</TomatoImage>
+      <Box>
+        <MeterImage voteAverage={voteAverage} />
+      </Box>
       <VotePercentage vote={voteAverage} href={href} />
     </Container>
   );
@@ -27,6 +29,6 @@ const Container = styled.div`
   gap: 0.3rem;
 `;
 
-const TomatoImage = styled.span`
+const Box = styled.span`
   width: 1.2rem;
 `;

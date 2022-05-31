@@ -1,8 +1,16 @@
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
+import {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useRouter } from 'next/router';
 import SelectBox from './SelectBox';
 import SearchBar from './SearchBar';
 import Button from './Button';
+import Form from './Form';
 import styled from '@emotion/styled';
 
 type MediaTypeType = 'Movie' | 'TV' | '';
@@ -14,6 +22,7 @@ export default function SearchForm() {
   const [alert, setAlert] = useState(false);
 
   const router = useRouter();
+
   const inputRef = useRef<HTMLInputElement>(null);
   const selectRef = useRef<HTMLDivElement>(null);
 
@@ -48,18 +57,18 @@ export default function SearchForm() {
     }
   };
 
-  const handleSetMediaType = (mediaType: MediaTypeType) => {
+  const handleSetMediaType = useCallback((mediaType: MediaTypeType) => {
     setMediaType(mediaType);
     setShow(false);
-  };
+  }, []);
 
-  const handleShow = () => {
+  const handleShow = useCallback(() => {
     setShow((prev) => !prev);
-  };
+  }, []);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setTerm(e.target.value);
-  };
+  }, []);
 
   return (
     <Container>
@@ -76,7 +85,7 @@ export default function SearchForm() {
         <SearchBar
           inputRef={inputRef}
           term={term}
-          handleChange={handleChange}
+          onChange={handleChange}
           alert={alert}
           placeholder='Search movies, tv, more ...'
         />
@@ -90,8 +99,4 @@ const Container = styled.div`
   display: flex;
   position: relative;
   margin: 1rem;
-`;
-
-const Form = styled.form`
-  display: flex;
 `;
